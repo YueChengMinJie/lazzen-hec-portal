@@ -8,6 +8,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import { vitePluginConfig } from './build';
 import { transformEnvConfType } from './build/utils';
 import { createProxy } from './build/proxy';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       vueJsx(),
       // ext vite plugin
       vitePluginConfig(viteEnv),
+      tailwindcss(),
     ],
     resolve: {
       alias: {
