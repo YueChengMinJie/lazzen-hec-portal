@@ -1,27 +1,6 @@
 {
-  "name": "antd-vue3-admin",
+  "name": "lx-web",
   "version": "1.0.0",
-  "author": {
-    "name": "Zuojiangtao",
-    "email": "1799158837@qq.com",
-    "url": "https://github.com/Zuojiangtao"
-  },
-  "keywords": [
-    "vue",
-    "vue3",
-    "vite",
-    "vite4",
-    "ant-design-vue",
-    "typescript",
-    "ts",
-    "admin",
-    "template"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Zuojiangtao/antd-vue3-admin.git"
-  },
-  "homepage": "https://github.com/Zuojiangtao/antd-vue3-admin",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
