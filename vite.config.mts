@@ -46,6 +46,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     // 处理ant-design-vue 样式文件
     css: {
+      postcss: {},
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
