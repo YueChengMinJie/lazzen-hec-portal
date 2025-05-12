@@ -7,9 +7,10 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-white: #fff;
     --spacing: 0.25rem;
-    --default-transition-duration: 150ms;
-    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -163,29 +164,23 @@
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
   }
+  .mb-\[10px\] {
+    margin-bottom: 10px;
+  }
+  .mb-\[20px\] {
+    margin-bottom: 20px;
+  }
   .ml-\[15px\] {
     margin-left: 15px;
   }
   .flex {
     display: flex;
   }
-  .table {
-    display: table;
-  }
-  .h-\[32\%\] {
-    height: 32%;
-  }
   .h-\[50px\] {
     height: 50px;
   }
-  .h-\[300px\] {
-    height: 300px;
-  }
-  .h-\[320px\] {
-    height: 320px;
-  }
-  .h-\[330px\] {
-    height: 330px;
+  .h-\[100px\] {
+    height: 100px;
   }
   .h-\[340px\] {
     height: 340px;
@@ -196,17 +191,20 @@
   .h-screen {
     height: 100vh;
   }
-  .w-1 {
-    width: calc(var(--spacing) * 1);
+  .w-1\/2 {
+    width: calc(1/2 * 100%);
   }
   .w-1\/5 {
     width: calc(1/5 * 100%);
   }
-  .w-4 {
-    width: calc(var(--spacing) * 4);
+  .w-2\/5 {
+    width: calc(2/5 * 100%);
   }
   .w-4\/5 {
     width: calc(4/5 * 100%);
+  }
+  .w-4\/10 {
+    width: calc(4/10 * 100%);
   }
   .w-\[33\%\] {
     width: 33%;
@@ -216,12 +214,6 @@
   }
   .flex-1 {
     flex: 1;
-  }
-  .border-collapse {
-    border-collapse: collapse;
-  }
-  .resize {
-    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -243,6 +235,12 @@
   }
   .gap-\[16px\] {
     gap: 16px;
+  }
+  .gap-\[20px\] {
+    gap: 20px;
+  }
+  .overflow-y-auto {
+    overflow-y: auto;
   }
   .border {
     border-style: var(--tw-border-style);
@@ -266,17 +264,21 @@
   .pt-\[10px\] {
     padding-top: 10px;
   }
-  .underline {
-    text-decoration-line: underline;
+  .pr-\[10px\] {
+    padding-right: 10px;
   }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
+  .pr-\[20px\] {
+    padding-right: 20px;
   }
-  .transition {
-    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
-    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  .pr-\[50px\] {
+    padding-right: 50px;
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-white {
+    color: var(--color-white);
   }
 }
 :root {
@@ -362,16 +364,10 @@ body {
   inherits: false;
   initial-value: solid;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
-      --tw-outline-style: solid;
     }
   }
 }

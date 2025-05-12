@@ -40,6 +40,23 @@
       value: '0.4 kV',
     },
   ]);
+  const params = reactive([
+    {
+      id: 1,
+      label: '温度',
+      value: '0.4 kV',
+    },
+    {
+      id: 2,
+      label: '温度',
+      value: '0.4 kV',
+    },
+    {
+      id: 3,
+      label: '温度',
+      value: '0.4 kV',
+    },
+  ]);
 </script>
 
 <template>
@@ -69,7 +86,15 @@
         </div>
       </div>
     </div>
-    <div class="mt-8 border border-[#303440] bg-[#1E1F25] flex-1" />
+    <div class="mt-8 p-8 border border-[#303440] bg-[#1E1F25] flex-1 overflow-y-auto">
+      <div class="bottom-top">产品参数</div>
+      <div class="flex flex-row flex-wrap param">
+        <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row">
+          <div class="param-label">{{ item.label }}</div>
+          <div class="param-value">{{ item.value }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -147,5 +172,41 @@
       border-top: 1px solid #303440;
       border-left: 1px solid #303440;
     }
+  }
+
+  .bottom-top {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-heading);
+    padding-bottom: 16px;
+  }
+
+  .param {
+    :nth-child(2n - 1) {
+      padding-right: 50px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .param-label {
+    font-size: 16px;
+    color: var(--color-heading);
+    font-weight: 600;
+    width: 50%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-image: linear-gradient(to bottom, #283a3f, #1e1f27);
+  }
+
+  .param-value {
+    font-size: 16px;
+    color: var(--color-heading);
+    font-weight: 600;
+    width: 50%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #151516;
   }
 </style>
