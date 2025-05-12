@@ -44,7 +44,7 @@
 
 <template>
   <div class="p-8 h-screen flex flex-col">
-    <div class="border border-[#303440] bg-[#1E1F25] h-[32%] p-8 flex flex-row gap-[9px]">
+    <div class="border border-[#303440] bg-[#1E1F25] h-[340px] p-8 flex flex-row gap-[9px]">
       <div class="border border-[#303440] h-full w-1/5 bg">
         <div class="status-c">
           <em class="status" />
