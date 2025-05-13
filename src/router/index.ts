@@ -5,17 +5,37 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/one',
+      redirect: '/gwmpcwg',
     },
     {
-      path: '/one',
-      name: 'one',
-      component: () => import('../views/OneView.vue'),
+      path: '/gwmpcwg',
+      name: 'gwmpcwg',
+      component: () => import('../views/GwmpcwgView.vue'),
     },
     {
-      path: '/two',
-      name: 'two',
-      component: () => import('../views/TwoView.vue'),
+      path: '/szk',
+      name: 'szk',
+      component: () => import('../views/SzkView.vue'),
+    },
+    {
+      path: '/qyb',
+      name: 'qyb',
+      component: () => import('../views/QybView.vue'),
+    },
+    {
+      path: '/jxtx',
+      name: 'jxtx',
+      component: () => import('../views/JxtxView.vue'),
+    },
+    {
+      path: '/dcybh',
+      name: 'dcybh',
+      component: () => import('../views/DcybhView.vue'),
+    },
+    {
+      path: '/sqjsc',
+      name: 'sqjsc',
+      component: () => import('../views/SqjscView.vue'),
     },
   ],
 });
