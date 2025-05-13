@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { reactive } from 'vue';
   import Temperature from '@/assets/svg/temperature.svg?component';
 
   const headers = reactive([

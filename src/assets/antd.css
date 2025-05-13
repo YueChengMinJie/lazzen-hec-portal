@@ -1,0 +1,46 @@
+@import "./base.css";
+
+/* form item */
+.ant-form-item-label > label {
+  color: var(--color-text) !important;
+}
+
+/* input */
+.ant-input {
+  background: none !important;
+  color: var(--color-text) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--color-placeholder) !important;
+  opacity: 1 !important;
+}
+
+/* select */
+.ant-select-selector {
+  background: none !important;
+  color: var(--color-text) !important;
+}
+
+.ant-select-dropdown {
+  background: none !important;
+  color: var(--color-text) !important;
+  box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid #303440;
+}
+
+.ant-select-item {
+  background-color: #1E1F24 !important;
+  color: var(--color-text) !important;
+}
+
+.ant-select-arrow, .ant-select-selection-item {
+  color: var(--color-text) !important;
+}
+
+/* button */
+.ant-btn-default {
+  background: #1E1F24 !important;
+  border: 1px solid #303440 !important;
+  color: var(--color-text) !important;
+}
