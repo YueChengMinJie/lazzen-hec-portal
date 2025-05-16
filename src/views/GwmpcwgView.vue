@@ -108,7 +108,7 @@
     <div class="mt-8 p-8 border border-[#303440] bg-[#1E1F25] flex-1 overflow-y-auto">
       <div class="bottom-top">产品参数</div>
       <div class="flex flex-row flex-wrap param">
-        <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row">
+        <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row param-child">
           <div class="param-label">{{ item.label }}</div>
           <div class="param-value">{{ item.value }}</div>
         </div>
@@ -222,7 +222,7 @@
   }
 
   .param {
-    :nth-child(2n - 1) {
+    .param-child:nth-child(2n - 1) {
       padding-right: 50px;
       margin-bottom: 15px;
     }

@@ -51,6 +51,7 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     'vue/no-mutating-props': 0,
     'vue/custom-event-name-casing': 0,
+    'vue/prefer-import-from-vue': 0,
     'vue/attributes-order': 0,
     'vue/one-component-per-file': 0,
     'vue/require-default-prop': 0,
@@ -68,6 +69,7 @@ module.exports = {
       },
     ],
     // ts
+    '@typescript-eslint/no-namespace': 0,
     '@typescript-eslint/ban-ts-ignore': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/no-explicit-any': 0,
