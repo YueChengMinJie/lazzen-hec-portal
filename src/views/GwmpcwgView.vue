@@ -1,5 +1,16 @@
 <script setup lang="ts">
-  import Temperature from '@/assets/svg/temperature.svg?component';
+  import Gygmpcw1 from '@/assets/svg/gygmpcw1.svg?component';
+  import Gygmpcw2 from '@/assets/svg/gygmpcw2.svg?component';
+  import Gygmpcw3 from '@/assets/svg/gygmpcw3.svg?component';
+  import Gygmpcw4 from '@/assets/svg/gygmpcw4.svg?component';
+  import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
+  import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
+  import { useGwmpcwg } from '@/stores/gwmpcwg';
+
+  const gwmpcwgStore = useGwmpcwg();
+  onMounted(async () => {
+    await gwmpcwgStore.loadGwmpcwg('String');
+  });
 
   const headers = reactive([
     {
@@ -62,8 +73,8 @@
   <div class="p-8 h-screen flex flex-col">
     <div class="border border-[#303440] bg-[#1E1F25] h-[340px] p-8 flex flex-row gap-[9px]">
       <div class="border border-[#303440] h-full w-1/5 bg">
-        <div class="status-c">
-          <em class="status" />
+        <div class="status-c-online">
+          <em class="status-online" />
           离线
         </div>
       </div>
@@ -72,9 +83,18 @@
         <div class="ml-[15px]">
           <div class="right-middle">运行参数</div>
           <div class="pt-[10px] flex flex-row flex-wrap right-bottom">
-            <div v-for="item in headers" :key="item.id" class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px]">
+            <div
+              v-for="(item, idx) in headers"
+              :key="item.id"
+              class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
+            >
               <div class="flex justify-center items-center">
-                <Temperature class="w-[50px] h-[50px]" />
+                <Gygmpcw1 v-if="idx === 0" />
+                <Gygmpcw2 v-if="idx === 1" />
+                <Gygmpcw3 v-if="idx === 2" />
+                <Gygmpcw4 v-if="idx === 3" />
+                <Gygmpcw5 v-if="idx === 4" />
+                <Gygmpcw6 v-if="idx === 5" />
               </div>
               <div class="flex flex-col">
                 <div class="value">{{ item.value }}</div>
@@ -99,15 +119,15 @@
 
 <style lang="less" scoped>
   .bg {
-    background-image: url('src/assets/image/bg.png');
-    background-size: cover;
+    background-image: url('src/assets/image/gygmpcw.png');
     background-repeat: no-repeat;
     background-position: center;
   }
 
   .status-c {
     display: inline-block;
-    background: hsla(0, 0%, 80%, 0.1);
+    background: var(--offline-bg-color);
+    color: var(--offline-color);
     border-radius: 31px;
     font-size: 14px;
     padding: 6px 18px;
@@ -121,7 +141,28 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--offline-color);
+    margin-right: 5px;
+  }
+
+  .status-c-online {
+    display: inline-block;
+    background: var(--online-bg-color);
+    color: var(--online-color);
+    border-radius: 31px;
+    font-size: 14px;
+    padding: 6px 18px;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  .status-online {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--online-color);
     margin-right: 5px;
   }
 
@@ -132,7 +173,7 @@
     font-weight: 600;
     line-height: 34px;
     color: var(--color-heading);
-    border-bottom: 1px solid #303440;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .right-middle {
@@ -150,26 +191,26 @@
   }
 
   .right-bottom {
-    :nth-child(2) {
-      border-left: 1px solid #303440;
+    .right-bottom-child:nth-child(2) {
+      border-left: 1px solid var(--color-border);
     }
 
-    :nth-child(3) {
-      border-left: 1px solid #303440;
+    .right-bottom-child:nth-child(3) {
+      border-left: 1px solid var(--color-border);
     }
 
-    :nth-child(4) {
-      border-top: 1px solid #303440;
+    .right-bottom-child:nth-child(4) {
+      border-top: 1px solid var(--color-border);
     }
 
-    :nth-child(5) {
-      border-top: 1px solid #303440;
-      border-left: 1px solid #303440;
+    .right-bottom-child:nth-child(5) {
+      border-top: 1px solid var(--color-border);
+      border-left: 1px solid var(--color-border);
     }
 
-    :nth-child(6) {
-      border-top: 1px solid #303440;
-      border-left: 1px solid #303440;
+    .right-bottom-child:nth-child(6) {
+      border-top: 1px solid var(--color-border);
+      border-left: 1px solid var(--color-border);
     }
   }
 
