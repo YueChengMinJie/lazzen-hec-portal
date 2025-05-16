@@ -6,6 +6,7 @@
   import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
   import { useGwmpcwg } from '@/stores/gwmpcwg';
+  import gwmpcwgData from '@/data/gwmpcwg';
 
   const gwmpcwgStore = useGwmpcwg();
   onMounted(async () => {
@@ -50,23 +51,7 @@
       value: '0.4 kV',
     },
   ]);
-  const params = reactive([
-    {
-      id: 1,
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 2,
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 3,
-      label: '温度',
-      value: '0.4 kV',
-    },
-  ]);
+  const params = reactive(gwmpcwgData);
 </script>
 
 <template>
@@ -110,7 +95,7 @@
       <div class="flex flex-row flex-wrap param">
         <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row param-child">
           <div class="param-label">{{ item.label }}</div>
-          <div class="param-value">{{ item.value }}</div>
+          <div class="param-value" :title="item.value">{{ item.value }}</div>
         </div>
       </div>
     </div>
@@ -248,5 +233,8 @@
     line-height: 50px;
     text-align: center;
     background-color: #151516;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
