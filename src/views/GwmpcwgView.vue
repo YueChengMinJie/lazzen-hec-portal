@@ -9,6 +9,7 @@
   import gwmpcwgData from '@/data/gwmpcwg';
 
   const gwmpcwgStore = useGwmpcwg();
+
   onMounted(async () => {
     await gwmpcwgStore.loadGwmpcwg('String');
   });
