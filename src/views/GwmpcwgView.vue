@@ -9,6 +9,7 @@
   import Gygmpcw4 from '@/assets/svg/gygmpcw4.svg?component';
   import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
+  import { useIntervalFn } from '@vueuse/shared';
 
   const deviceStore = useDevice();
   const gwmpcwgStore = useGwmpcwg();
@@ -19,15 +20,41 @@
   const online = ref(false);
   const params = reactive(gwmpcwgData);
 
-  onMounted(async () => {
+  async function loadData() {
     if (domainCode) {
-      const [data1, data2] = await Promise.all([
-        deviceStore.loadStatus(domainCode),
-        gwmpcwgStore.loadGwmpcwg(domainCode),
-      ]);
-      online.value = data1;
-      headers.value = data2;
+      try {
+        const [data1, data2] = await Promise.all([
+          deviceStore.loadStatus(domainCode),
+          gwmpcwgStore.loadGwmpcwg(domainCode),
+        ]);
+        online.value = data1;
+        headers.value = data2;
+        return true;
+      } catch (e) {
+        console.error('请求错误', e);
+        pause();
+        return false;
+      }
     }
+  }
+
+  const { pause, resume } = useIntervalFn(
+    async () => {
+      await loadData();
+    },
+    5000,
+    { immediate: false },
+  );
+
+  onMounted(async () => {
+    const success = await loadData();
+    if (success) {
+      resume();
+    }
+  });
+
+  onUnmounted(() => {
+    pause();
   });
 </script>
 
