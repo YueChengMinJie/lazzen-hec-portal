@@ -1,67 +1,43 @@
 <script setup lang="ts">
+  import type { Api } from '@/apis';
+  import gwmpcwgData from '@/data/gwmpcwg';
+  import { useDevice } from '@/stores/device';
+  import { useGwmpcwg } from '@/stores/gwmpcwg';
   import Gygmpcw1 from '@/assets/svg/gygmpcw1.svg?component';
   import Gygmpcw2 from '@/assets/svg/gygmpcw2.svg?component';
   import Gygmpcw3 from '@/assets/svg/gygmpcw3.svg?component';
   import Gygmpcw4 from '@/assets/svg/gygmpcw4.svg?component';
   import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
-  import { useGwmpcwg } from '@/stores/gwmpcwg';
-  import gwmpcwgData from '@/data/gwmpcwg';
 
+  const deviceStore = useDevice();
   const gwmpcwgStore = useGwmpcwg();
+  const route = useRoute();
+  const domainCode = route.query.domainCode as string;
+
+  const headers = ref<Array<Api.GwmpcwgResult>>([]);
+  const online = ref(false);
+  const params = reactive(gwmpcwgData);
 
   onMounted(async () => {
-    await gwmpcwgStore.loadGwmpcwg('String');
+    if (domainCode) {
+      const [data1, data2] = await Promise.all([
+        deviceStore.loadStatus(domainCode),
+        gwmpcwgStore.loadGwmpcwg(domainCode),
+      ]);
+      online.value = data1;
+      headers.value = data2;
+    }
   });
-
-  const headers = reactive([
-    {
-      id: 1,
-      icon: 'icon',
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 2,
-      icon: 'icon',
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 3,
-      icon: 'icon',
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 4,
-      icon: 'icon',
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 5,
-      icon: 'icon',
-      label: '温度',
-      value: '0.4 kV',
-    },
-    {
-      id: 6,
-      icon: 'icon',
-      label: '温度',
-      value: '0.4 kV',
-    },
-  ]);
-  const params = reactive(gwmpcwgData);
 </script>
 
 <template>
   <div class="p-8 h-screen flex flex-col">
     <div class="border border-[#303440] bg-[#1E1F25] h-[340px] p-8 flex flex-row gap-[9px]">
       <div class="border border-[#303440] h-full w-1/5 bg">
-        <div class="status-c-online">
-          <em class="status-online" />
-          离线
+        <div :class="online ? 'status-c-online' : 'status-c'">
+          <em :class="online ? 'status-online' : 'status'" />
+          {{ online ? '在线' : '离线' }}
         </div>
       </div>
       <div class="h-full w-4/5">
@@ -83,7 +59,7 @@
                 <Gygmpcw6 v-if="idx === 5" />
               </div>
               <div class="flex flex-col">
-                <div class="value">{{ item.value }}</div>
+                <div class="value">{{ item.val }}</div>
                 <div>{{ item.label }}</div>
               </div>
             </div>
