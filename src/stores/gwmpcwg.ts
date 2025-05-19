@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import { getGwmpcwg } from '@/apis';
+import { getCurrentData } from '@/apis';
 
 export const useGwmpcwg = defineStore('gwmpcwg', () => {
   async function loadGwmpcwg(domainCode: string) {
-    return await getGwmpcwg({ domainCode });
+    return await getCurrentData({ domainCode, deviceType: 'GWMPCW' });
   }
 
   return {
