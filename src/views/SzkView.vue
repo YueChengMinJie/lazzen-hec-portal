@@ -53,13 +53,13 @@
       class="mt-8 border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] flex-1 p-8 flex flex-row justify-between items-start content-start flex-wrap gap-[15px]"
     >
       <div
-        v-for="idx in 5"
+        v-for="idx in 30"
         :key="idx"
         class="w-[339px] h-[228px] bg-[var(--bg-color)] rounded-[8px] border border-solid border-[var(--color-border)]"
       >
         <div class="h-[58px] flex flex-row items-center gap-[8px] border-b border-solid border-[var(--color-border)]">
           <Syb class="ml-[16px]" />
-          <div class="text-white font-medium text-5xl">水仪表{{ idx }}</div>
+          <div class="text-white font-medium text-[20px]">水仪表{{ idx }}</div>
         </div>
         <div
           :class="{
@@ -71,13 +71,13 @@
         <div class="mx-[16px] mb-[8px] border border-solid border-[var(--color-border)] p-[16px]">
           <div class="flex flex-row items-center gap-[13px]">
             <Ssll class="ml-[16px]" />
-            <div class="text-[#8F8F92] font-normal text-4xl w-1/2">瞬时流量</div>
-            <div class="text-white font-medium text-5xl">22</div>
+            <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">瞬时流量</div>
+            <div class="text-white font-medium text-[18px]">22</div>
           </div>
-          <div class="flex flex-row items-center gap-[13px] mt-[28px]">
+          <div class="flex flex-row items-center gap-[13px] mt-[10px]">
             <Zll class="ml-[16px]" />
-            <div class="text-[#8F8F92] font-normal text-4xl w-1/2">总流量</div>
-            <div class="text-white font-medium text-5xl">33</div>
+            <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">总流量</div>
+            <div class="text-white font-medium text-[18px]">33</div>
           </div>
         </div>
         <div class="px-[16px] flex flex-row justify-between items-center">
