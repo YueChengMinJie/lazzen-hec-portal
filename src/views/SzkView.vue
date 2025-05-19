@@ -3,7 +3,7 @@
   import Syb from '@/assets/svg/syb.svg?component';
   import Ssll from '@/assets/svg/ssll.svg?component';
   import Zll from '@/assets/svg/zll.svg?component';
-  // import Ysfx from '@/assets/svg/ysfx.svg?component';
+  import Ysfx from '@/assets/svg/ysfx.svg?component';
   import YsfxOn from '@/assets/svg/ysfx-on.svg?component';
   import OnlineStatus from '@/components/OnlineStatus.vue';
 
@@ -61,7 +61,13 @@
           <Syb class="ml-[16px]" />
           <div class="text-white font-medium text-5xl">水仪表{{ idx }}</div>
         </div>
-        <div class="mx-[16px] mt-[16px] h-[6px] bg-[var(--primary-color)] rounded-t-[16px]" />
+        <div
+          :class="{
+            'bg-[var(--primary-color)]': idx % 2 === 0,
+            'bg-[var(--color-border)]': idx % 2 === 1,
+            'mx-[16px] mt-[16px] h-[6px] rounded-t-[16px]': true,
+          }"
+        />
         <div class="mx-[16px] mb-[8px] border border-solid border-[var(--color-border)] p-[16px]">
           <div class="flex flex-row items-center gap-[13px]">
             <Ssll class="ml-[16px]" />
@@ -75,11 +81,13 @@
           </div>
         </div>
         <div class="px-[16px] flex flex-row justify-between items-center">
-          <OnlineStatus :online="true" :show-continent="false" class="ml-[14px]" />
+          <OnlineStatus :online="idx % 2 === 0" :show-continent="false" class="ml-[14px]" />
           <a-button>
             <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick">
-              <YsfxOn />
-              <div class="text-[var(--primary-color)]">用水分析</div>
+              <YsfxOn v-if="idx % 2 === 0" />
+              <Ysfx v-else />
+              <div v-if="idx % 2 === 0" class="text-[var(--primary-color)]">用水分析</div>
+              <div v-else>用水分析</div>
             </div>
           </a-button>
         </div>

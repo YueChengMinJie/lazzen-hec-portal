@@ -308,6 +308,9 @@
   .bg-\[var\(--bg-color\)\] {
     background-color: var(--bg-color);
   }
+  .bg-\[var\(--color-border\)\] {
+    background-color: var(--color-border);
+  }
   .bg-\[var\(--primary-color\)\] {
     background-color: var(--primary-color);
   }
