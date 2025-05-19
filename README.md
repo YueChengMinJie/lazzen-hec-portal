@@ -1,7 +1,7 @@
 # 良信东阳光项目
 
 ## 环境
-- Node.js 18.18.x 或更高版本
+- Node.js 20.11.30 或更高版本
 - pnpm 10.10.0
 
 ## 技术栈
@@ -10,7 +10,8 @@
 - 构建工具：Vite 4
 - UI 组件库：Ant Design Vue 4.x
 - CCS 组件库：Tailwindcss 4.x
-- 工具库：VueUse 12.x
+- 网络请求：Axios 1.9.x
+- 工具库：VueUse 12.x defu qs
 
 ## 配置
 ```text
@@ -44,7 +45,7 @@ VITE_BUILD_COMPRESS=gzip
 VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE=false
 ```
 
-## 部署
+## 运行编译
 ```bash
 # 安装依赖
 pnpm install
@@ -56,4 +57,34 @@ pnpm run dev
 pnpm run build:sit   # 测试环境
 pnpm run build:uat   # 预发环境
 pnpm run build       # 正式环境
+```
+
+## 跨环境部署
+```bash
+$env:NODE_ENV="production"; pnpm run build
+```
+
+## Nginx 配置示例
+```nginx configuration
+server {
+    listen       80;
+    server_name  hec.example.com;
+    
+    location / {
+        root   /www/hec-portal/dist;
+        index  index.html;
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location /api/ {
+        proxy_pass http://backend-server:8975/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # 开启gzip
+    gzip on;
+    gzip_types text/plain application/xml application/javascript;
+}
 ```
