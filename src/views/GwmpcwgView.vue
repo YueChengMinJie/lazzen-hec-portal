@@ -1,15 +1,16 @@
 <script setup lang="ts">
   import type { Api } from '@/apis';
   import gwmpcwgData from '@/data/gwmpcwg';
+  import { message } from 'ant-design-vue';
   import { useDevice } from '@/stores/device';
   import { useGwmpcwg } from '@/stores/gwmpcwg';
+  import { useIntervalFn } from '@vueuse/shared';
   import Gygmpcw1 from '@/assets/svg/gygmpcw1.svg?component';
   import Gygmpcw2 from '@/assets/svg/gygmpcw2.svg?component';
   import Gygmpcw3 from '@/assets/svg/gygmpcw3.svg?component';
   import Gygmpcw4 from '@/assets/svg/gygmpcw4.svg?component';
   import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
-  import { useIntervalFn } from '@vueuse/shared';
 
   const deviceStore = useDevice();
   const gwmpcwgStore = useGwmpcwg();
@@ -47,9 +48,13 @@
   );
 
   onMounted(async () => {
-    const success = await loadData();
-    if (success) {
-      resume();
+    if (domainCode) {
+      const success = await loadData();
+      if (success) {
+        resume();
+      }
+    } else {
+      message.error('请选择设备');
     }
   });
 

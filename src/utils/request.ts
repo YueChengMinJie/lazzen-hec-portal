@@ -281,6 +281,9 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   return client;
 }
 
-export const requestClient = createRequestClient(import.meta.env.VITE_GLOB_API_URL, {
-  responseReturn: 'data',
-});
+export const requestClient = createRequestClient(
+  import.meta.env.VITE_GLOB_API_URL + import.meta.env.VITE_GLOB_API_URL_PREFIX,
+  {
+    responseReturn: 'data',
+  },
+);
