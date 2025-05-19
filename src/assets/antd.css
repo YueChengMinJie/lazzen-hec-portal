@@ -1,1 +1,6 @@
 @import "./base.css";
+
+/* table */
+.ant-table-thead > tr > th {
+  background: #292b37 !important;
+}
