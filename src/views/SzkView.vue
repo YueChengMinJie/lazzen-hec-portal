@@ -1,16 +1,28 @@
 <script setup lang="ts">
   import type { FormInstance } from 'ant-design-vue';
+  import Syb from '@/assets/svg/syb.svg?component';
+  import Ssll from '@/assets/svg/ssll.svg?component';
+  import Zll from '@/assets/svg/zll.svg?component';
+  // import Ysfx from '@/assets/svg/ysfx.svg?component';
+  import YsfxOn from '@/assets/svg/ysfx-on.svg?component';
+  import OnlineStatus from '@/components/OnlineStatus.vue';
 
   const formRef = ref<FormInstance>();
   const formState = reactive({ status: undefined, name: '' });
+  const open = ref(false);
+
   const onFinish = () => {};
   const resetForm = () => {};
   const submitForm = () => {};
+  const handleAnalyzeClick = () => {
+    open.value = true;
+  };
+  const handleOk = () => {};
 </script>
 
 <template>
   <div class="p-8 h-screen flex flex-col">
-    <div class="border border-[#303440] rounded-xl bg-[#1E1F25] p-8">
+    <div class="border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] p-8">
       <a-form ref="formRef" :model="formState" @finish="onFinish">
         <a-row :gutter="24">
           <a-col :span="8">
@@ -37,7 +49,46 @@
         </a-row>
       </a-form>
     </div>
-    <div class="mt-8 border border-[#303440] rounded-xl bg-[#1E1F25] flex-1 p-8" />
+    <div
+      class="mt-8 border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] flex-1 p-8 flex flex-row justify-between items-start content-start flex-wrap gap-[15px]"
+    >
+      <div
+        v-for="idx in 5"
+        :key="idx"
+        class="w-[339px] h-[228px] bg-[var(--bg-color)] rounded-[8px] border border-solid border-[var(--color-border)]"
+      >
+        <div class="h-[58px] flex flex-row items-center gap-[8px] border-b border-solid border-[var(--color-border)]">
+          <Syb class="ml-[16px]" />
+          <div class="text-white font-medium text-5xl">水仪表{{ idx }}</div>
+        </div>
+        <div class="mx-[16px] mt-[16px] h-[6px] bg-[var(--primary-color)] rounded-t-[16px]" />
+        <div class="mx-[16px] mb-[8px] border border-solid border-[var(--color-border)] p-[16px]">
+          <div class="flex flex-row items-center gap-[13px]">
+            <Ssll class="ml-[16px]" />
+            <div class="text-[#8F8F92] font-normal text-4xl w-1/2">瞬时流量</div>
+            <div class="text-white font-medium text-5xl">22</div>
+          </div>
+          <div class="flex flex-row items-center gap-[13px] mt-[28px]">
+            <Zll class="ml-[16px]" />
+            <div class="text-[#8F8F92] font-normal text-4xl w-1/2">总流量</div>
+            <div class="text-white font-medium text-5xl">33</div>
+          </div>
+        </div>
+        <div class="px-[16px] flex flex-row justify-between items-center">
+          <OnlineStatus :online="true" :show-continent="false" class="ml-[14px]" />
+          <a-button>
+            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick">
+              <YsfxOn />
+              <div class="text-[var(--primary-color)]">用水分析</div>
+            </div>
+          </a-button>
+        </div>
+      </div>
+    </div>
+
+    <a-modal v-model:open="open" @ok="handleOk" :closable="false" :footer="null">
+      <div>hello</div>
+    </a-modal>
   </div>
 </template>
 

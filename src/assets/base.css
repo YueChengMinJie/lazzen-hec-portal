@@ -26,6 +26,10 @@
   --offline-color: rgba(255, 255, 255, 0.3);
   --online-bg-color: rgba(0, 216, 195, .1);
   --online-color: #00d8c3;
+
+  --bg-color: #1E1F25;
+
+  --primary-color: #00D8C3;
 }
 
 /* semantic color variables for this project */

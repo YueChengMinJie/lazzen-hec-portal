@@ -11,6 +11,7 @@
   import Gygmpcw4 from '@/assets/svg/gygmpcw4.svg?component';
   import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
+  import OnlineStatus from '@/components/OnlineStatus.vue';
 
   const deviceStore = useDevice();
   const gwmpcwgStore = useGwmpcwg();
@@ -65,12 +66,9 @@
 
 <template>
   <div class="p-8 h-screen flex flex-col">
-    <div class="border border-[#303440] bg-[#1E1F25] h-[340px] p-8 flex flex-row gap-[9px]">
-      <div class="border border-[#303440] h-full w-1/5 bg">
-        <div :class="online ? 'status-c-online' : 'status-c'">
-          <em :class="online ? 'status-online' : 'status'" />
-          {{ online ? '在线' : '离线' }}
-        </div>
+    <div class="border border-[var(--color-border)] bg-[var(--bg-color)] h-[340px] p-8 flex flex-row gap-[9px]">
+      <div class="border border-[var(--color-border)] h-full w-1/5 bg">
+        <OnlineStatus :online="online" />
       </div>
       <div class="h-full w-4/5">
         <div class="right-top"> 高压柜母排测温</div>
@@ -99,7 +97,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-8 p-8 border border-[#303440] bg-[#1E1F25] flex-1 overflow-y-auto">
+    <div class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] flex-1 overflow-y-auto">
       <div class="bottom-top">产品参数</div>
       <div class="flex flex-row flex-wrap param">
         <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row param-child">
@@ -116,48 +114,6 @@
     background-image: url('src/assets/image/gygmpcw.png');
     background-repeat: no-repeat;
     background-position: center;
-  }
-
-  .status-c {
-    display: inline-block;
-    background: var(--offline-bg-color);
-    color: var(--offline-color);
-    border-radius: 31px;
-    font-size: 14px;
-    padding: 6px 18px;
-    position: absolute;
-    left: 12px;
-    top: 12px;
-  }
-
-  .status {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--offline-color);
-    margin-right: 5px;
-  }
-
-  .status-c-online {
-    display: inline-block;
-    background: var(--online-bg-color);
-    color: var(--online-color);
-    border-radius: 31px;
-    font-size: 14px;
-    padding: 6px 18px;
-    position: absolute;
-    left: 12px;
-    top: 12px;
-  }
-
-  .status-online {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--online-color);
-    margin-right: 5px;
   }
 
   .right-top {
