@@ -273,7 +273,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   client.addResponseInterceptor(
     errorMessageResponseInterceptor(async (msg: string, error: any) => {
       const responseData = error?.response?.data ?? {};
-      const errorMessage = responseData?.error ?? responseData?.message ?? '';
+      const errorMessage = responseData?.errorMessage ?? '';
       await message.error(errorMessage || msg);
     }),
   );

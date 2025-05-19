@@ -5,11 +5,40 @@
   import Zll from '@/assets/svg/zll.svg?component';
   import Ysfx from '@/assets/svg/ysfx.svg?component';
   import YsfxOn from '@/assets/svg/ysfx-on.svg?component';
+  import Download from '@/assets/svg/download.svg?component';
   import OnlineStatus from '@/components/OnlineStatus.vue';
+  import type { RangeValue } from '@/types';
 
   const formRef = ref<FormInstance>();
   const formState = reactive({ status: undefined, name: '' });
   const open = ref(false);
+  const dateTimeRange = ref<RangeValue>();
+  const dataSource = ref([
+    {
+      id: '1',
+      date: '2025年5月14日 12:00',
+      value: '11',
+    },
+    {
+      id: '2',
+      date: '2025年5月14日 11:00',
+      value: '11',
+    },
+  ]);
+  const columns = [
+    {
+      title: '日期',
+      dataIndex: 'date',
+      key: 'date',
+      width: 200,
+    },
+    {
+      title: '用水量',
+      dataIndex: 'value',
+      key: 'value',
+      width: 200,
+    },
+  ];
 
   const onFinish = () => {};
   const resetForm = () => {};
@@ -27,7 +56,7 @@
         <a-row :gutter="24">
           <a-col :span="8">
             <a-form-item name="status" label="设备状态">
-              <a-select v-model:value="formState.status" placeholder="请选择设备状态">
+              <a-select v-model:value="formState.status" placeholder="请选择设备状态" allow-clear>
                 <a-select-option value="0">离线</a-select-option>
                 <a-select-option value="1">在线</a-select-option>
               </a-select>
@@ -94,8 +123,16 @@
       </div>
     </div>
 
-    <a-modal v-model:open="open" @ok="handleOk" :closable="false" :footer="null">
-      <div>hello</div>
+    <a-modal v-model:open="open" @ok="handleOk" :closable="false" :footer="null" width="90vw">
+      <div class="flex flex-row justify-between items-center mb-[30px]">
+        <div class="font-medium text-[20px] text-[#E9E9E9]">水仪表1-用水统计分析</div>
+        <div class="flex flex-row justify-start items-center">
+          <div class="font-medium text-[14px] text-[#BBBDBF]">时间查询：</div>
+          <a-range-picker v-model:value="dateTimeRange" show-time class="w-[360px]" />
+          <Download class="ml-[30px] cursor-pointer" />
+        </div>
+      </div>
+      <a-table :dataSource="dataSource" :columns="columns" />
     </a-modal>
   </div>
 </template>
