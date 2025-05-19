@@ -9,6 +9,7 @@
 .ant-input {
   background: none !important;
   color: var(--color-text) !important;
+  border: 1px solid var(--color-border);
 }
 
 .ant-input::placeholder {
@@ -20,13 +21,23 @@
 .ant-select-selector {
   background: none !important;
   color: var(--color-text) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.ant-select:hover .ant-select-selector {
+  border-color: #25e6cc !important;
+}
+
+.ant-select-item-option:hover {
+  color: #00D8C3 !important;
+  background-color: #253638 !important;
 }
 
 .ant-select-dropdown {
   background: none !important;
   color: var(--color-text) !important;
   box-shadow: 0 2px 12px 0 rgba(255, 255, 255, 0.05);
-  border: 1px solid #303440;
+  border: 1px solid var(--color-border);
 }
 
 .ant-select-item {
@@ -40,7 +51,12 @@
 
 /* button */
 .ant-btn-default {
+  border-radius: 8px 8px 8px 8px !important;
   background: #1E1F24 !important;
-  border: 1px solid #303440 !important;
-  color: var(--color-text) !important;
+  border: 1px solid #213234 !important;
+  color: #515F66 !important;
+}
+
+.ant-btn-default:hover {
+  background: #272d31 !important;
 }
