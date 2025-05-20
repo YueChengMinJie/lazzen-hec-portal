@@ -111,7 +111,7 @@
 
 <style lang="less" scoped>
   .bg {
-    background-image: url('src/assets/image/gygmpcw.png');
+    background-image: url('../../assets/image/gygmpcw.png');
     background-repeat: no-repeat;
     background-position: center;
   }

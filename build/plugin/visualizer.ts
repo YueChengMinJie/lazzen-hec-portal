@@ -1,6 +1,6 @@
 // https://github.com/btd/rollup-plugin-visualizer
 import type { PluginOption } from 'vite';
-import visualizer from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export function configPluginVisualizer(): PluginOption | PluginOption[] {
   return visualizer({

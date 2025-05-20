@@ -12,17 +12,7 @@
     "report": "cross-env REPORT=true npm run build",
     "type-check": "vue-tsc --noEmit",
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
-    "clean:lib": "rimraf node_modules",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "prepare": "husky install",
-    "lint-staged": "lint-staged"
-  },
-  "lint-staged": {
-    "src/**/*.{ts,js,json,tsx,jsx,vue}": [
-      "prettier --write",
-      "eslint --cache --fix",
-      "eslint"
-    ]
+    "clean:lib": "rimraf node_modules"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
@@ -59,9 +49,7 @@
     "eslint": "^9.27.0",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-vue": "^10.1.0",
-    "husky": "^9.0.11",
     "less": "^4.2.0",
-    "lint-staged": "^16.0.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.5.3",
     "prettier": "^3.2.5",
