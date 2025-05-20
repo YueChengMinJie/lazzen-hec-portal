@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build:sit": "vite build --mode sit",
+    "build:fat": "vite build --mode fat",
     "build:uat": "vite build --mode uat",
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 4173",
