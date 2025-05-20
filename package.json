@@ -27,8 +27,8 @@
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
     "@vue/shared": "^3.5.14",
-    "@vueuse/core": "^13.1.0",
-    "@vueuse/shared": "^13.1.0",
+    "@vueuse/core": "^13.2.0",
+    "@vueuse/shared": "^13.2.0",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
