@@ -11,7 +11,7 @@
 - UI 组件库：Ant Design Vue 4.x
 - CCS 组件库：Tailwindcss 4.x
 - 网络请求：Axios 1.9.x
-- 工具库：VueUse 12.x defu qs
+- 工具库：VueUse 13.x defu qs
 
 ## 配置
 ```text
