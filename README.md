@@ -1,17 +1,20 @@
 # 良信东阳光项目
 
 ## 环境
-- Node.js 20.11.30 或更高版本
-- pnpm 10.10.0
+- Node.js 18.18.x 或更高版本
+- pnpm 10.11.0
 
 ## 技术栈
-- 前端框架：Vue 3 + TypeScript
-- 状态管理：Pinia
-- 构建工具：Vite 4
-- UI 组件库：Ant Design Vue 4.x
-- CCS 组件库：Tailwindcss 4.x
-- 网络请求：Axios 1.9.x
-- 工具库：VueUse 13.x defu qs
+- 前端框架：Vue3 + TypeScript
+- 状态管理：Pinia3
+- 构建工具：Vite Postcss
+- 路由管理：Vue Router 4
+- UI 组件库：Ant Design Vue 4
+- CCS 组件库：Tailwindcss4
+- CSS 预处理器：LESS
+- 网络请求：Axios
+- 工具库：VueUse Defu QS Dayjs Lodash
+- 代码规范：ESLint + Prettier + Commitlint
 
 ## 配置
 ```text
