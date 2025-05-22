@@ -79,7 +79,7 @@
       </a-form>
     </div>
     <div
-      class="mt-8 border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] flex-1 p-8 flex flex-row justify-between items-start content-start flex-wrap gap-[15px]"
+      class="mt-8 border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] flex-1 p-8 flex flex-row justify-start items-start content-start flex-wrap gap-[15px]"
     >
       <div
         v-for="idx in 30"
