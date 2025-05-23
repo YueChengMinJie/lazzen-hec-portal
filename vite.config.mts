@@ -16,7 +16,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 
   const viteEnv = transformEnvConfType(loadEnv(mode, root));
 
-  const { VITE_DROP_CONSOLE, VITE_PORT, VITE_PROXY } = viteEnv;
+  const { VITE_DROP_CONSOLE, VITE_PORT, VITE_PROXY, VITE_APP_NODE_ENV } = viteEnv;
 
   return {
     plugins: [
@@ -57,5 +57,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     optimizeDeps: {
       include: ['vue', 'pinia', 'vue-router', 'ant-design-vue/es', '@vueuse/core'],
     },
+    base: VITE_APP_NODE_ENV === 'production' ? '/dwzn-web/' : '/',
   };
 });
