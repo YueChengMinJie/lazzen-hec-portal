@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { Api } from '@/apis';
+  import type { Api } from '@/types/api';
 
   import gwmpcwgData from '@/data/gwmpcwg';
   import { useDevice } from '@/stores/device';

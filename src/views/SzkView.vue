@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import type { RangeValue } from '@/types';
   import type { FormInstance } from 'ant-design-vue';
-  import type { Api } from '@/apis';
+  import type { Api } from '@/types/api';
 
-  import { useData, useDomainCode, usePagination } from '@/utils/hook.ts';
+  import { useData, useDomainCode, usePagination } from '@/utils/hook';
   import Syb from '@/assets/svg/syb.svg?component';
   import Zll from '@/assets/svg/zll.svg?component';
   import Ssll from '@/assets/svg/ssll.svg?component';
@@ -11,7 +11,7 @@
   import YsfxOn from '@/assets/svg/ysfx-on.svg?component';
   import OnlineStatus from '@/components/OnlineStatus.vue';
   import Download from '@/assets/svg/download.svg?component';
-  import { useSzk } from '@/stores/szkStore.ts';
+  import { useSzk } from '@/stores/szkStore';
 
   const szkStore = useSzk();
   const domainCode = useDomainCode();
