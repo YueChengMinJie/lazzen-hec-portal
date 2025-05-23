@@ -1,10 +1,9 @@
 <script setup lang="ts">
   import type { Api } from '@/apis';
+
   import gwmpcwgData from '@/data/gwmpcwg';
-  import { message } from 'ant-design-vue';
   import { useDevice } from '@/stores/device';
   import { useGwmpcwg } from '@/stores/gwmpcwg';
-  import { useIntervalFn } from '@vueuse/shared';
   import Gygmpcw1 from '@/assets/svg/gygmpcw1.svg?component';
   import Gygmpcw2 from '@/assets/svg/gygmpcw2.svg?component';
   import Gygmpcw3 from '@/assets/svg/gygmpcw3.svg?component';
@@ -12,11 +11,12 @@
   import Gygmpcw5 from '@/assets/svg/gygmpcw5.svg?component';
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
   import OnlineStatus from '@/components/OnlineStatus.vue';
+  import { useDomainCode, useData } from '@/utils/hook.ts';
 
   const deviceStore = useDevice();
   const gwmpcwgStore = useGwmpcwg();
-  const route = useRoute();
-  const domainCode = route.query.domainCode as string;
+  const domainCode = useDomainCode();
+  const { pause } = useData(domainCode, loadData);
 
   const headers = ref<Array<Api.GwmpcwgResult>>([]);
   const online = ref(false);
@@ -38,30 +38,8 @@
         return false;
       }
     }
+    return false;
   }
-
-  const { pause, resume } = useIntervalFn(
-    async () => {
-      await loadData();
-    },
-    5000,
-    { immediate: false },
-  );
-
-  onMounted(async () => {
-    if (domainCode) {
-      const success = await loadData();
-      if (success) {
-        resume();
-      }
-    } else {
-      message.error('请选择设备');
-    }
-  });
-
-  onUnmounted(() => {
-    pause();
-  });
 </script>
 
 <template>
@@ -111,7 +89,7 @@
 
 <style lang="less" scoped>
   .bg {
-    background-image: url('../../assets/image/gygmpcw.png');
+    background-image: url('src/assets/image/gygmpcw.png');
     background-repeat: no-repeat;
     background-position: center;
   }

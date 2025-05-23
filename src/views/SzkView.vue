@@ -1,13 +1,20 @@
 <script setup lang="ts">
+  import type { RangeValue } from '@/types';
   import type { FormInstance } from 'ant-design-vue';
+
+  import { useData, useDomainCode } from '@/utils/hook.ts';
   import Syb from '@/assets/svg/syb.svg?component';
-  import Ssll from '@/assets/svg/ssll.svg?component';
   import Zll from '@/assets/svg/zll.svg?component';
+  import Ssll from '@/assets/svg/ssll.svg?component';
   import Ysfx from '@/assets/svg/ysfx.svg?component';
   import YsfxOn from '@/assets/svg/ysfx-on.svg?component';
-  import Download from '@/assets/svg/download.svg?component';
   import OnlineStatus from '@/components/OnlineStatus.vue';
-  import type { RangeValue } from '@/types';
+  import Download from '@/assets/svg/download.svg?component';
+  import { useSzk } from '@/stores/szkStore.ts';
+
+  const szkStore = useSzk();
+  const domainCode = useDomainCode();
+  const { pause } = useData(domainCode, loadData);
 
   const formRef = ref<FormInstance>();
   const formState = reactive({ status: undefined, name: '' });
@@ -39,6 +46,23 @@
       width: 200,
     },
   ];
+
+  async function loadData() {
+    if (domainCode) {
+      try {
+        const [data1] = await Promise.all([szkStore.loadList(domainCode, formState.status, formState.name)]);
+        // todo
+        console.log('zxj', data1);
+        // todo
+        return false;
+      } catch (e) {
+        console.error('请求错误', e);
+        pause();
+        return false;
+      }
+    }
+    return false;
+  }
 
   const onFinish = () => {};
   const resetForm = () => {};
