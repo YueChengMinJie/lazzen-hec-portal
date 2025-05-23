@@ -22,7 +22,7 @@ export function useData(
     async () => {
       await loadData();
     },
-    5000,
+    60 * 1000,
     { immediate: false },
   );
 

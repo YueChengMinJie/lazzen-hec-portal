@@ -19,13 +19,11 @@ export namespace Api {
   }
 
   export interface SybResult {
-    name?: string;
-    link?: boolean;
-    value?: string;
-    totalValue?: string;
-    forwardPointCode?: string;
-    momentPointCode?: string;
-    reversePointCode?: string;
+    id: string;
+    name: string;
+    link: boolean;
+    value: string;
+    totalValue: string;
   }
 }
 

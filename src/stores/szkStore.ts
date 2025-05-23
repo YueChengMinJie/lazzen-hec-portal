@@ -6,7 +6,7 @@ export const useSzk = defineStore('gwmpcwg', () => {
     if (status === undefined) {
       return await getSyb({ domainCode, waterDeviceName: name });
     } else {
-      return await getSyb({ domainCode, link: !!status, waterDeviceName: name });
+      return await getSyb({ domainCode, link: status === '1', waterDeviceName: name });
     }
   }
 

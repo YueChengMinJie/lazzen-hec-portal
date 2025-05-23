@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { RangeValue } from '@/types';
   import type { FormInstance } from 'ant-design-vue';
+  import type { Api } from '@/apis';
 
   import { useData, useDomainCode } from '@/utils/hook.ts';
   import Syb from '@/assets/svg/syb.svg?component';
@@ -18,6 +19,7 @@
 
   const formRef = ref<FormInstance>();
   const formState = reactive({ status: undefined, name: '' });
+  const list = ref<Array<Api.SybResult>>([]);
   const open = ref(false);
   const dateTimeRange = ref<RangeValue>();
   const dataSource = ref([
@@ -51,10 +53,8 @@
     if (domainCode) {
       try {
         const [data1] = await Promise.all([szkStore.loadList(domainCode, formState.status, formState.name)]);
-        // todo
-        console.log('zxj', data1);
-        // todo
-        return false;
+        list.value = data1 || [];
+        return true;
       } catch (e) {
         console.error('请求错误', e);
         pause();
@@ -64,9 +64,13 @@
     return false;
   }
 
-  const onFinish = () => {};
-  const resetForm = () => {};
-  const submitForm = () => {};
+  const onFinish = async () => {
+    await loadData();
+  };
+  const resetForm = async () => {
+    formRef.value?.resetFields();
+    await loadData();
+  };
   const handleAnalyzeClick = () => {
     open.value = true;
   };
@@ -94,7 +98,7 @@
           <a-col :span="8">
             <a-form-item>
               <div class="flex flex-row-reverse gap-[10px]">
-                <a-button type="primary" html-type="submit" @click="submitForm">查询</a-button>
+                <a-button type="primary" html-type="submit">查询</a-button>
                 <a-button @click="resetForm">重置</a-button>
               </div>
             </a-form-item>
@@ -106,18 +110,18 @@
       class="mt-8 border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] flex-1 p-8 flex flex-row justify-start items-start content-start flex-wrap gap-[15px]"
     >
       <div
-        v-for="idx in 30"
-        :key="idx"
+        v-for="item in list"
+        :key="item.id"
         class="w-[339px] h-[228px] bg-[var(--bg-color)] rounded-[8px] border border-solid border-[var(--color-border)]"
       >
         <div class="h-[58px] flex flex-row items-center gap-[8px] border-b border-solid border-[var(--color-border)]">
           <Syb class="ml-[16px]" />
-          <div class="text-white font-medium text-[20px]">水仪表{{ idx }}</div>
+          <div class="text-white font-medium text-[20px]">{{ item.name }}</div>
         </div>
         <div
           :class="{
-            'bg-[var(--primary-color)]': idx % 2 === 0,
-            'bg-[var(--color-border)]': idx % 2 === 1,
+            'bg-[var(--primary-color)]': item.link,
+            'bg-[var(--color-border)]': !item.link,
             'mx-[16px] mt-[16px] h-[6px] rounded-t-[16px]': true,
           }"
         />
@@ -125,21 +129,21 @@
           <div class="flex flex-row items-center gap-[13px]">
             <Ssll class="ml-[16px]" />
             <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">瞬时流量</div>
-            <div class="text-white font-medium text-[18px]">22</div>
+            <div class="text-white font-medium text-[18px]">{{ item.value }}</div>
           </div>
           <div class="flex flex-row items-center gap-[13px] mt-[10px]">
             <Zll class="ml-[16px]" />
             <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">总流量</div>
-            <div class="text-white font-medium text-[18px]">33</div>
+            <div class="text-white font-medium text-[18px]">{{ item.totalValue }}</div>
           </div>
         </div>
         <div class="px-[16px] flex flex-row justify-between items-center">
-          <OnlineStatus :online="idx % 2 === 0" :show-continent="false" class="ml-[14px]" />
+          <OnlineStatus :online="item.link" :show-continent="false" class="ml-[14px]" />
           <a-button>
             <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick">
-              <YsfxOn v-if="idx % 2 === 0" />
+              <YsfxOn v-if="item.link" />
               <Ysfx v-else />
-              <div v-if="idx % 2 === 0" class="text-[var(--primary-color)]">用水分析</div>
+              <div v-if="item.link" class="text-[var(--primary-color)]">用水分析</div>
               <div v-else>用水分析</div>
             </div>
           </a-button>
