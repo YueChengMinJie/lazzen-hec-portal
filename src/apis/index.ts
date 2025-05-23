@@ -6,9 +6,28 @@ export namespace Api {
     deviceType?: string;
   }
 
+  export interface PageParams {
+    page: number;
+    size: number;
+  }
+
+  export interface PageResult<T> {
+    records: Array<T>;
+    total: number;
+    size: number;
+    current: number;
+    pages: number;
+  }
+
   export interface SybData extends CommonParams {
     link?: boolean;
     waterDeviceName?: string;
+  }
+
+  export interface SybPage extends CommonParams, PageParams {
+    startDate?: string;
+    endDate?: string;
+    id: string;
   }
 
   export interface GwmpcwgResult {
@@ -25,6 +44,12 @@ export namespace Api {
     value: string;
     totalValue: string;
   }
+
+  export interface SybPageResult {
+    id: string;
+    date: string;
+    value: string;
+  }
 }
 
 export const getStatus = (params: Api.CommonParams) => {
@@ -37,4 +62,8 @@ export const getCurrentData = (params: Api.CommonParams) => {
 
 export const getSyb = (data: Api.SybData) => {
   return requestClient.post<Array<Api.SybResult> | null>('/device/current/water', data);
+};
+
+export const getSybPage = (data: Api.SybPage) => {
+  return requestClient.post<Api.PageResult<Api.SybPageResult> | null>('/device/history/analysis', data);
 };

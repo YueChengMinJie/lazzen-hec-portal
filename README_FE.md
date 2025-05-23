@@ -23,3 +23,12 @@ server {
     gzip_types text/plain application/xml application/javascript;
 }
 ```
+## route
+```text
+/dcybh 低残压保护
+/gwmpcwg 高温母排测温柜
+/jxtx 机械特性
+/qyb 汽中控
+/sqjsc 水汽驾驶仓
+/szk 水中控
+```

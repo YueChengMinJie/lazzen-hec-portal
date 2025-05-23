@@ -3,7 +3,7 @@
   import type { FormInstance } from 'ant-design-vue';
   import type { Api } from '@/apis';
 
-  import { useData, useDomainCode } from '@/utils/hook.ts';
+  import { useData, useDomainCode, usePagination } from '@/utils/hook.ts';
   import Syb from '@/assets/svg/syb.svg?component';
   import Zll from '@/assets/svg/zll.svg?component';
   import Ssll from '@/assets/svg/ssll.svg?component';
@@ -21,19 +21,9 @@
   const formState = reactive({ status: undefined, name: '' });
   const list = ref<Array<Api.SybResult>>([]);
   const open = ref(false);
+  const selectId = ref();
   const dateTimeRange = ref<RangeValue>();
-  const dataSource = ref([
-    {
-      id: '1',
-      date: '2025年5月14日 12:00',
-      value: '11',
-    },
-    {
-      id: '2',
-      date: '2025年5月14日 11:00',
-      value: '11',
-    },
-  ]);
+  const dataSource = ref<Array<Api.SybPageResult>>([]);
   const columns = [
     {
       title: '日期',
@@ -48,6 +38,7 @@
       width: 200,
     },
   ];
+  const { current, pageSize, total, pagination } = usePagination();
 
   async function loadData() {
     if (domainCode) {
@@ -64,6 +55,20 @@
     return false;
   }
 
+  async function loadPage() {
+    try {
+      const [data1] = await Promise.all([
+        szkStore.loadPage(current.value, pageSize.value, dateTimeRange.value, selectId.value, domainCode),
+      ]);
+      dataSource.value = data1?.records || [];
+      total.value = data1?.total || 0;
+      return true;
+    } catch (e) {
+      console.error('请求错误', e);
+      return false;
+    }
+  }
+
   const onFinish = async () => {
     await loadData();
   };
@@ -71,10 +76,14 @@
     formRef.value?.resetFields();
     await loadData();
   };
-  const handleAnalyzeClick = () => {
+  const handleAnalyzeClick = async (id: string) => {
+    selectId.value = id;
+    await loadPage();
     open.value = true;
   };
-  const handleOk = () => {};
+  const handleOk = () => {
+    console.log('zxj', dateTimeRange.value);
+  };
 </script>
 
 <template>
@@ -140,7 +149,7 @@
         <div class="px-[16px] flex flex-row justify-between items-center">
           <OnlineStatus :online="item.link" :show-continent="false" class="ml-[14px]" />
           <a-button>
-            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick">
+            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick(item.id)">
               <YsfxOn v-if="item.link" />
               <Ysfx v-else />
               <div v-if="item.link" class="text-[var(--primary-color)]">用水分析</div>
@@ -151,16 +160,16 @@
       </div>
     </div>
 
-    <a-modal v-model:open="open" @ok="handleOk" :closable="false" :footer="null" width="90vw">
+    <a-modal v-model:open="open" :closable="false" :footer="null" width="90vw">
       <div class="flex flex-row justify-between items-center mb-[30px]">
         <div class="font-medium text-[20px] text-[#E9E9E9]">水仪表1-用水统计分析</div>
         <div class="flex flex-row justify-start items-center">
           <div class="font-medium text-[14px] text-[#BBBDBF]">时间查询：</div>
-          <a-range-picker v-model:value="dateTimeRange" show-time class="w-[360px]" />
+          <a-range-picker v-model:value="dateTimeRange" show-time class="w-[360px]" @ok="handleOk" />
           <Download class="ml-[30px] cursor-pointer" />
         </div>
       </div>
-      <a-table :dataSource="dataSource" :columns="columns" />
+      <a-table :dataSource="dataSource" :columns="columns" :pagination="pagination" />
     </a-modal>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { message } from 'ant-design-vue';
+import { message, type TablePaginationConfig } from 'ant-design-vue';
 import { useIntervalFn } from '@vueuse/shared';
 
 export function useDomainCode() {
@@ -43,4 +43,18 @@ export function useData(
     resume,
     pause,
   };
+}
+
+export function usePagination() {
+  const current = ref(1);
+  const pageSize = ref(10);
+  const total = ref(0);
+  const pagination = computed(() => ({
+    current: current.value,
+    pageSize: pageSize.value,
+    total: total.value,
+    showSizeChanger: true,
+    position: ['bottomCenter'],
+  })) as TablePaginationConfig;
+  return { current, pageSize, total, pagination };
 }
