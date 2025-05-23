@@ -12,6 +12,7 @@
   import OnlineStatus from '@/components/OnlineStatus.vue';
   import Download from '@/assets/svg/download.svg?component';
   import { useQzk } from '@/stores/qzkStore';
+  import dayjs, { type Dayjs } from 'dayjs';
 
   const qzkStore = useQzk();
   const domainCode = useDomainCode();
@@ -96,6 +97,11 @@
   const handleDownloadClick = async () => {
     await qzkStore.exportPage(dateTimeRange.value, selectId.value, domainCode, selectItem.value);
   };
+  const disabledDate = (current: Dayjs) => {
+    const tooEarly = current.isBefore(dayjs().subtract(1, 'month'), 'day');
+    const tooLate = current.isAfter(dayjs(), 'day');
+    return tooEarly || tooLate;
+  };
 </script>
 
 <template>
@@ -177,7 +183,13 @@
         <div class="font-medium text-[20px] text-[#E9E9E9]">汽仪表{{ selectId }}-用汽统计分析</div>
         <div class="flex flex-row justify-start items-center">
           <div class="font-medium text-[14px] text-[#BBBDBF]">时间查询：</div>
-          <a-range-picker v-model:value="dateTimeRange" show-time class="w-[360px]" @change="handleDateRangeChange" />
+          <a-range-picker
+            show-time
+            class="w-[360px]"
+            v-model:value="dateTimeRange"
+            :disabled-date="disabledDate"
+            @change="handleDateRangeChange"
+          />
           <Download class="ml-[30px] cursor-pointer" @click="handleDownloadClick" />
         </div>
       </div>
