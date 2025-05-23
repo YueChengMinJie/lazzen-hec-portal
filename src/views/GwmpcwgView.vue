@@ -18,7 +18,7 @@
   const domainCode = useDomainCode();
   const { pause } = useData(domainCode, loadData);
 
-  const headers = ref<Array<Api.GwmpcwgResult>>([]);
+  const headers = ref<Array<Api.CurrentDataResult>>([]);
   const online = ref(false);
   const params = reactive(gwmpcwgData);
 

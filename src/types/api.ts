@@ -17,39 +17,45 @@ export namespace Api {
     pages: number;
   }
 
-  export interface SybData extends CommonParams {
+  export interface YbData extends CommonParams {
     link?: boolean;
     waterDeviceName?: string;
   }
 
-  export interface SybPage extends CommonParams, PageParams {
+  export interface YbDetailData extends CommonParams, PageParams {
+    startDate?: string;
+    endDate?: string;
+    id: string;
+    dataEnum: string;
+    forwardPointCode: string;
+    reversePointCode?: string;
+  }
+
+  export interface YbDetailExportData extends CommonParams {
     startDate?: string;
     endDate?: string;
     id: string;
   }
 
-  export interface SybPageExport extends CommonParams {
-    startDate?: string;
-    endDate?: string;
-    id: string;
-  }
-
-  export interface GwmpcwgResult {
+  export interface CurrentDataResult {
     id: number;
     name: string;
     value: number;
     unit: string;
   }
 
-  export interface SybResult {
+  export interface YbResult {
     id: string;
     name: string;
     link: boolean;
     value: string;
     totalValue: string;
+    momentPointCode: string;
+    forwardPointCode: string;
+    reversePointCode?: string;
   }
 
-  export interface SybPageResult {
+  export interface YbDetailResult {
     id: string;
     date: string;
     value: string;

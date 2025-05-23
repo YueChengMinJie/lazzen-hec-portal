@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
-import { exportYbDetail, getSybList, getYbDetailPage } from '@/apis';
+import { exportYbDetail, getQybList, getYbDetailPage } from '@/apis';
 import type { RangeValue } from '@/types';
 import fileDownload from 'js-file-download';
 import type { Api } from '@/types/api.ts';
 
-export const useSzk = defineStore('szk', () => {
+export const useQzk = defineStore('qzk', () => {
   async function loadList(domainCode: string, status: undefined | string, name: string) {
     if (status === undefined) {
-      return await getSybList({ domainCode, waterDeviceName: name });
+      return await getQybList({ domainCode, waterDeviceName: name });
     } else {
-      return await getSybList({ domainCode, link: status === '1', waterDeviceName: name });
+      return await getQybList({ domainCode, link: status === '1', waterDeviceName: name });
     }
   }
 
@@ -28,9 +28,8 @@ export const useSzk = defineStore('szk', () => {
       endDate: '',
       id: selectId,
       domainCode,
-      dataEnum: 'WATER',
+      dataEnum: 'STEAM',
       forwardPointCode: selectItem.forwardPointCode,
-      reversePointCode: selectItem.reversePointCode,
     };
     setDateTimeRange(dateTimeRange, data);
     return await getYbDetailPage(data);
@@ -54,9 +53,8 @@ export const useSzk = defineStore('szk', () => {
       endDate: '',
       id: selectId,
       domainCode,
-      dataEnum: 'WATER',
+      dataEnum: 'STEAM',
       forwardPointCode: selectItem.forwardPointCode,
-      reversePointCode: selectItem.reversePointCode,
     };
     setDateTimeRange(dateTimeRange, data);
     const response = await exportYbDetail(data);

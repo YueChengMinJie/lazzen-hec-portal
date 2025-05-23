@@ -19,11 +19,12 @@
 
   const formRef = ref<FormInstance>();
   const formState = reactive({ status: undefined, name: '' });
-  const list = ref<Array<Api.SybResult>>([]);
+  const list = ref<Array<Api.YbResult>>([]);
   const open = ref(false);
   const selectId = ref();
+  const selectItem = ref();
   const dateTimeRange = ref<RangeValue>();
-  const dataSource = ref<Array<Api.SybPageResult>>([]);
+  const dataSource = ref<Array<Api.YbDetailResult>>([]);
   const columns = [
     {
       title: '日期',
@@ -58,7 +59,14 @@
   async function loadPage() {
     try {
       let [data1] = await Promise.all([
-        szkStore.loadPage(current.value, pageSize.value, dateTimeRange.value, selectId.value, domainCode),
+        szkStore.loadPage(
+          current.value,
+          pageSize.value,
+          dateTimeRange.value,
+          selectId.value,
+          domainCode,
+          selectItem.value,
+        ),
       ]);
       dataSource.value = data1?.records || [];
       total.value = data1?.total || 0;
@@ -76,8 +84,9 @@
     formRef.value?.resetFields();
     await loadData();
   };
-  const handleAnalyzeClick = async (id: string) => {
-    selectId.value = id;
+  const handleAnalyzeClick = async (item: Api.YbResult) => {
+    selectId.value = item.id;
+    selectItem.value = item;
     await loadPage();
     open.value = true;
   };
@@ -85,7 +94,7 @@
     await loadPage();
   };
   const handleDownloadClick = async () => {
-    await szkStore.exportPage(dateTimeRange.value, selectId.value, domainCode);
+    await szkStore.exportPage(dateTimeRange.value, selectId.value, domainCode, selectItem.value);
   };
 </script>
 
@@ -152,7 +161,7 @@
         <div class="px-[16px] flex flex-row justify-between items-center">
           <OnlineStatus :online="item.link" :show-continent="false" class="ml-[14px]" />
           <a-button>
-            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick(item.id)">
+            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick(item)">
               <YsfxOn v-if="item.link" />
               <Ysfx v-else />
               <div v-if="item.link" class="text-[var(--primary-color)]">用水分析</div>

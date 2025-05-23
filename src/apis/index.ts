@@ -6,17 +6,21 @@ export const getStatus = (params: Api.CommonParams) => {
 };
 
 export const getCurrentData = (params: Api.CommonParams) => {
-  return requestClient.get<Array<Api.GwmpcwgResult>>('/device/current/data', { params });
+  return requestClient.get<Array<Api.CurrentDataResult>>('/device/current/data', { params });
 };
 
-export const getSyb = (data: Api.SybData) => {
-  return requestClient.post<Array<Api.SybResult> | null>('/device/current/water', data);
+export const getSybList = (data: Api.YbData) => {
+  return requestClient.post<Array<Api.YbResult> | null>('/device/current/water', data);
 };
 
-export const getSybPage = (data: Api.SybPage) => {
-  return requestClient.post<Api.PageResult<Api.SybPageResult> | null>('/device/history/analysis', data);
+export const getQybList = (data: Api.YbData) => {
+  return requestClient.post<Array<Api.YbResult> | null>('/device/current/steam', data);
 };
 
-export const exportSybPage = (data: Api.SybPageExport) => {
+export const getYbDetailPage = (data: Api.YbDetailData) => {
+  return requestClient.post<Api.PageResult<Api.YbDetailResult> | null>('/device/history/analysis', data);
+};
+
+export const exportYbDetail = (data: Api.YbDetailExportData) => {
   return requestClient.download('/device/history/analysis/export', data);
 };

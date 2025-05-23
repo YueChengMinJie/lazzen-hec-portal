@@ -42,7 +42,7 @@ module.exports = {
     'vue/component-name-in-template-casing': 0,
     'vue/html-closing-bracket-spacing': 0,
     'vue/singleline-html-element-content-newline': 0,
-    'vue/script-setup-uses-vars': 2,
+    'vue/script-setup-uses-vars': 0,
     'vue/no-unused-components': 0,
     'vue/multiline-html-element-content-newline': 0,
     'vue/no-use-v-if-with-v-for': 0,
