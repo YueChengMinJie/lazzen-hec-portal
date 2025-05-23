@@ -57,7 +57,7 @@
 
   async function loadPage() {
     try {
-      const [data1] = await Promise.all([
+      let [data1] = await Promise.all([
         szkStore.loadPage(current.value, pageSize.value, dateTimeRange.value, selectId.value, domainCode),
       ]);
       dataSource.value = data1?.records || [];
@@ -81,8 +81,11 @@
     await loadPage();
     open.value = true;
   };
-  const handleOk = () => {
-    console.log('zxj', dateTimeRange.value);
+  const handleDateRangeChange = async () => {
+    await loadPage();
+  };
+  const handleDownloadClick = async () => {
+    await szkStore.exportPage(dateTimeRange.value, selectId.value, domainCode);
   };
 </script>
 
@@ -162,11 +165,11 @@
 
     <a-modal v-model:open="open" :closable="false" :footer="null" width="90vw">
       <div class="flex flex-row justify-between items-center mb-[30px]">
-        <div class="font-medium text-[20px] text-[#E9E9E9]">水仪表1-用水统计分析</div>
+        <div class="font-medium text-[20px] text-[#E9E9E9]">水仪表{{ selectId }}-用水统计分析</div>
         <div class="flex flex-row justify-start items-center">
           <div class="font-medium text-[14px] text-[#BBBDBF]">时间查询：</div>
-          <a-range-picker v-model:value="dateTimeRange" show-time class="w-[360px]" @ok="handleOk" />
-          <Download class="ml-[30px] cursor-pointer" />
+          <a-range-picker v-model:value="dateTimeRange" show-time class="w-[360px]" @change="handleDateRangeChange" />
+          <Download class="ml-[30px] cursor-pointer" @click="handleDownloadClick" />
         </div>
       </div>
       <a-table :dataSource="dataSource" :columns="columns" :pagination="pagination" />

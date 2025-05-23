@@ -154,6 +154,19 @@ class RequestClient {
   }
 
   /**
+   * 文件下载
+   */
+  public download(url: string, data?: any, config?: RequestClientConfig): Promise<RequestResponse> {
+    return this.request<RequestResponse>(url, {
+      ...config,
+      data,
+      method: 'POST',
+      responseType: 'blob',
+      responseReturn: 'raw',
+    });
+  }
+
+  /**
    * 通用的请求方法
    */
   public async request<T>(url: string, config: RequestClientConfig): Promise<T> {

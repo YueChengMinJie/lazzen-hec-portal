@@ -30,6 +30,12 @@ export namespace Api {
     id: string;
   }
 
+  export interface SybPageExport extends CommonParams {
+    startDate?: string;
+    endDate?: string;
+    id: string;
+  }
+
   export interface GwmpcwgResult {
     id: number;
     name: string;
@@ -66,4 +72,8 @@ export const getSyb = (data: Api.SybData) => {
 
 export const getSybPage = (data: Api.SybPage) => {
   return requestClient.post<Api.PageResult<Api.SybPageResult> | null>('/device/history/analysis', data);
+};
+
+export const exportSybPage = (data: Api.SybPageExport) => {
+  return requestClient.download('/device/history/analysis/export', data);
 };
