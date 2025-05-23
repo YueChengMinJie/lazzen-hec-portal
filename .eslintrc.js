@@ -19,7 +19,7 @@ module.exports = {
       tsx: true,
     },
   },
-  extends: ['plugin:vue/vue3-recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+  extends: ['plugin:vue/recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   rules: {
     // js
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
