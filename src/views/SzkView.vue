@@ -24,7 +24,7 @@
   const open = ref(false);
   const selectId = ref();
   const selectItem = ref();
-  const dateTimeRange = ref<RangeValue>();
+  const dateTimeRange = ref<RangeValue>([dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')]);
   const dataSource = ref<Array<Api.YbDetailResult>>([]);
   const columns = [
     {
@@ -186,6 +186,7 @@
           <a-range-picker
             show-time
             class="w-[360px]"
+            :allow-clear="false"
             v-model:value="dateTimeRange"
             :disabled-date="disabledDate"
             @change="handleDateRangeChange"
