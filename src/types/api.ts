@@ -40,7 +40,7 @@ export namespace Api {
   export interface CurrentDataResult {
     id: number;
     name: string;
-    value: number;
+    value: string | null | undefined;
     unit: string;
   }
 

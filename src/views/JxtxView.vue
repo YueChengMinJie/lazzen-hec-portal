@@ -29,7 +29,7 @@
     return false;
   }
 
-  const filterVal = (idx: number, val: string) => {
+  const filterVal = (idx: number, val: string | null | undefined) => {
     if (idx === 0) {
       return val ? `${val}A` : '';
     } else if (idx === 1) {
