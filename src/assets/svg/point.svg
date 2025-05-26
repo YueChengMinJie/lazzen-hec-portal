@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title></title>
+    <defs>
+        <linearGradient x1="50%" y1="-44.9577634%" x2="50%" y2="140.873392%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#9BA7B5" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="99.1233986%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" stop-opacity="0.474528279" offset="0%"></stop>
+            <stop stop-color="#9BA7B5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="项目首页黑-切图" transform="translate(-136.000000, -92.000000)" fill-rule="nonzero">
+            <g id="编组-8" transform="translate(137.171573, 93.171573)">
+                <rect id="矩形" fill="url(#linearGradient-1)" transform="translate(7.071068, 7.071068) rotate(-45.000000) translate(-7.071068, -7.071068) " x="5.07106781" y="5.07106781" width="4" height="4" rx="0.5"></rect>
+                <rect id="矩形" stroke="url(#linearGradient-2)" opacity="0.447183518" transform="translate(7.071068, 7.071068) rotate(-45.000000) translate(-7.071068, -7.071068) " x="2.07106781" y="2.07106781" width="10" height="10" rx="0.5"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -20,6 +20,8 @@ declare module 'vue' {
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ATable: typeof import('ant-design-vue/es')['Table']
+    Chart: typeof import('./../src/components/Chart.vue')['default']
+    ChartItem: typeof import('./../src/components/ChartItem.vue')['default']
     OnlineStatus: typeof import('./../src/components/OnlineStatus.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
