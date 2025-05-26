@@ -74,7 +74,7 @@
 <template>
   <div class="p-8 h-screen flex flex-col">
     <div class="border border-[var(--color-border)] bg-[var(--bg-color)] h-[340px] p-8 flex flex-row gap-[9px]">
-      <div class="h-full">
+      <div class="w-full h-full">
         <div class="right-top"> 机械特性 </div>
         <div class="ml-[15px]">
           <div class="right-middle">参数</div>

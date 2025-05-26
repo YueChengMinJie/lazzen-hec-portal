@@ -5,15 +5,15 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/gwmpcwg',
+      redirect: '/gwmpcw',
     },
     {
-      path: '/gwmpcwg',
+      path: '/gwmpcw',
       name: 'gwmpcwg',
       component: () => import('../views/GwmpcwgView.vue'),
     },
     {
-      path: '/szk',
+      path: '/syb',
       name: 'szk',
       component: () => import('../views/SzkView.vue'),
     },
@@ -23,12 +23,12 @@ const router = createRouter({
       component: () => import('../views/QybView.vue'),
     },
     {
-      path: '/jxtx',
+      path: '/jxtx3',
       name: 'jxtx',
       component: () => import('../views/JxtxView.vue'),
     },
     {
-      path: '/dcybh',
+      path: '/dcymxbh',
       name: 'dcybh',
       component: () => import('../views/DcybhView.vue'),
     },
