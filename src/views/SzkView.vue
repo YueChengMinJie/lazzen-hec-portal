@@ -185,7 +185,7 @@
           <div class="font-medium text-[14px] text-[#BBBDBF]">时间查询：</div>
           <a-range-picker
             show-time
-            class="w-[360px]"
+            class="w-[370px]"
             :allow-clear="false"
             v-model:value="dateTimeRange"
             :disabled-date="disabledDate"
