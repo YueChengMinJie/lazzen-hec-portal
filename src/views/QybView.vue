@@ -105,7 +105,7 @@
 </script>
 
 <template>
-  <div class="p-8 h-screen flex flex-col">
+  <div class="h-screen flex flex-col">
     <div class="border border-[var(--color-border)] rounded-xl bg-[var(--bg-color)] p-8">
       <a-form ref="formRef" :model="formState" @finish="onFinish">
         <a-row :gutter="24">

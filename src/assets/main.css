@@ -5,27 +5,3 @@
 #app {
   font-weight: normal;
 }
-
-@media screen and (max-width: 1400px) {
-  html {
-    font-size: 0.72vw;
-  }
-}
-
-@media screen and (max-width: 1600px) {
-  html {
-    font-size: 0.64vw;
-  }
-}
-
-@media screen and (max-width: 1800px) {
-  html {
-    font-size: 0.57vw;
-  }
-}
-
-@media screen and (max-width: 1920px) {
-  html {
-    font-size: 0.54vw;
-  }
-}

@@ -124,7 +124,7 @@
 </script>
 
 <template>
-  <div class="p-8 h-screen flex flex-col">
+  <div class="h-screen flex flex-col">
     <div class="border border-[var(--color-border)] bg-[var(--bg-color)] p-[36px] flex flex-col">
       <div class="flex flex-row gap-[12px] items-end">
         <div class="font-medium text-[24px] text-[#E9E9E9]"> 低残压母线保护 </div>
