@@ -6,10 +6,10 @@ server {
     listen       80;
     server_name  hec.example.com;
     
-    location / {
-        root   /www/hec-portal/dist;
-        index  index.html;
-        try_files $uri $uri/ /index.html;
+    location /dwzn-web/ {
+	      alias /usr/share/nginx/static/lazzen_hec/;
+        index index.html;
+        try_files $uri /dwzn-web/index.html;
     }
     
     location /api/ {
