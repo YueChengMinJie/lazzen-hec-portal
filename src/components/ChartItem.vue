@@ -30,7 +30,7 @@
     >
       <span class="pb-[4px] border-b-2 border-b-solid border-b-[var(--primary-color)]">{{ type }}</span>
     </div>
-    <div class="chart-container pb-[10px] px-[2px]" />
+    <slot />
   </div>
 </template>
 
