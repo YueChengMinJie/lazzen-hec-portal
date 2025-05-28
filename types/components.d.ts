@@ -22,9 +22,11 @@ declare module 'vue' {
     ATable: typeof import('ant-design-vue/es')['Table']
     Chart: typeof import('./../src/components/Chart.vue')['default']
     ChartItem: typeof import('./../src/components/ChartItem.vue')['default']
+    EChart: typeof import('./../src/components/base/EChart.vue')['default']
     G2: typeof import('./../src/components/base/G2.vue')['default']
     OnlineStatus: typeof import('./../src/components/OnlineStatus.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WaterChart: typeof import('./../src/components/WaterChart.vue')['default']
   }
 }

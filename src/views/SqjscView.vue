@@ -6,7 +6,9 @@
   <div class="relative w-full h-[100vh] jsc p-[38px] flex flex-col gap-4">
     <div class="flex flex-row justify-between">
       <ChartItem title="水流量耗能环比" type="水">
-        <G2 />
+        <template #chart="{ setSlotRef }">
+          <WaterChart :ref="setSlotRef" />
+        </template>
       </ChartItem>
       <ChartItem title="用水排行榜TOP5" type="水" />
     </div>

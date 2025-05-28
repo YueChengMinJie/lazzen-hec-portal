@@ -6,6 +6,14 @@
     type: string;
   }>();
   const selectedItem = ref('3');
+  const slotRef = ref<{ updateChart: (value: string) => void }>();
+
+  const setSlotRef = (el: any) => {
+    slotRef.value = el;
+  };
+  const handleDateChange = () => {
+    slotRef.value?.updateChart(selectedItem.value);
+  };
 </script>
 
 <template>
@@ -16,7 +24,7 @@
         <span class="ml-[6px] font-medium text-[18px] leading-[18px] text-[#E9E9E9]"> {{ props.title }} </span>
       </div>
       <div>
-        <a-select v-model:value="selectedItem">
+        <a-select v-model:value="selectedItem" @change="handleDateChange">
           <a-select-option value="1">今日</a-select-option>
           <a-select-option value="2">近一周</a-select-option>
           <a-select-option value="3">近一月</a-select-option>
@@ -30,7 +38,7 @@
     >
       <span class="pb-[4px] border-b-2 border-b-solid border-b-[var(--primary-color)]">{{ type }}</span>
     </div>
-    <slot />
+    <slot name="chart" :setSlotRef="setSlotRef" />
   </div>
 </template>
 
