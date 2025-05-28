@@ -28,5 +28,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     WaterChart: typeof import('./../src/components/WaterChart.vue')['default']
+    WaterGasChart: typeof import('./../src/components/WaterGasChart.vue')['default']
   }
 }

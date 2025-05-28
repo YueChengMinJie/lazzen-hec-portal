@@ -1,7 +1,12 @@
 <script setup lang="ts">
   import type { EChartExpose } from '@/types/component.ts';
 
+  const props = defineProps<{
+    type: string;
+  }>();
+
   const echart = ref<EChartExpose>();
+  const isWater = computed(() => props.type === 'water');
 
   onMounted(async () => {
     await updateChart();
@@ -19,6 +24,15 @@
     const data = await loadData(dateType);
     echart.value?.chart.setOption(getOption(data));
   };
+
+  const getName = () => {
+    return isWater.value ? '用水量' : '用气量';
+  };
+
+  const getUnit = () => {
+    return isWater.value ? 'L' : 'KJ';
+  };
+
   const getOption = (data: any) => {
     return {
       backgroundColor: 'transparent',
@@ -32,7 +46,7 @@
         },
       },
       legend: {
-        data: ['用水量', '环比', '同比'],
+        data: [getName(), '环比', '同比'],
         bottom: 20,
       },
       xAxis: [
@@ -47,7 +61,7 @@
       yAxis: [
         {
           type: 'value',
-          name: 'L',
+          name: getUnit(),
           splitLine: {
             show: false,
           },
@@ -62,11 +76,11 @@
       ],
       series: [
         {
-          name: '用水量',
+          name: getName(),
           type: 'bar',
           tooltip: {
             valueFormatter: function (value: number) {
-              return value + ' L';
+              return value + ' ' + getUnit();
             },
           },
           data: data[1],
