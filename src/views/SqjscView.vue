@@ -10,7 +10,11 @@
           <WaterGasChart :ref="setSlotRef" :type="'water'" />
         </template>
       </ChartItem>
-      <ChartItem title="用水排行榜TOP5" type="水" />
+      <ChartItem title="用水排行榜TOP5" type="水">
+        <template #chart="{ setSlotRef }">
+          <WaterGasTopChart :ref="setSlotRef" :type="'water'" />
+        </template>
+      </ChartItem>
     </div>
     <div class="flex flex-row justify-between">
       <ChartItem title="汽流量耗能环比" type="汽">
@@ -18,7 +22,11 @@
           <WaterGasChart :ref="setSlotRef" :type="'gas'" />
         </template>
       </ChartItem>
-      <ChartItem title="用汽排行榜TOP5" type="汽" />
+      <ChartItem title="用汽排行榜TOP5" type="汽">
+        <template #chart="{ setSlotRef }">
+          <WaterGasTopChart :ref="setSlotRef" :type="'gas'" />
+        </template>
+      </ChartItem>
     </div>
   </div>
 </template>
