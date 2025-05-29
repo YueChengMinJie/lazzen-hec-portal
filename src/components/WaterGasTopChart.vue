@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import type { EChartExpose } from '@/types/component.ts';
+  import { top } from '@/apis';
 
   const props = defineProps<{
     type: string;
   }>();
 
   const echart = ref<EChartExpose>();
-  const isWater = computed(() => props.type === 'water');
+  const isWater = computed(() => props.type === 'WATER');
 
   onMounted(async () => {
     await updateChart();
@@ -19,12 +20,16 @@
   };
 
   const loadData = async (dateType: string = '3') => {
-    const data = [];
-    for (let i = 0; i < 5; ++i) {
-      data.push(Math.round(Math.random() * 200 * +dateType));
+    try {
+      const data = await top({
+        dateType,
+        dataType: props.type,
+        top: 5,
+      });
+      return [data.map(item => item.name), data.map(item => item.value)];
+    } catch (_) {
+      return [[], []];
     }
-    data.sort((a, b) => b - a);
-    return await Promise.resolve([data, ['5号楼', '4号楼', '3号楼', '2号楼', '1号楼']]);
   };
 
   const getOption = (data: any) => {

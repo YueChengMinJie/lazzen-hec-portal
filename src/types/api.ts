@@ -37,6 +37,15 @@ export namespace Api {
     id: string;
   }
 
+  export interface ChartData {
+    dateType: string;
+    dataType: string;
+  }
+
+  export interface ChartTopData extends ChartData {
+    top: number;
+  }
+
   export interface CurrentDataResult {
     id: number;
     name: string;
@@ -59,5 +68,17 @@ export namespace Api {
     id: string;
     date: string;
     value: string;
+  }
+
+  export interface ChartResult {
+    xName: string;
+    value: number;
+    qoq: number;
+    yoy: number;
+  }
+
+  export interface ChartTopResult {
+    name: string;
+    value: number;
   }
 }

@@ -1,12 +1,13 @@
 <script setup lang="ts">
   import type { EChartExpose } from '@/types/component.ts';
+  import { chart } from '@/apis';
 
   const props = defineProps<{
     type: string;
   }>();
 
   const echart = ref<EChartExpose>();
-  const isWater = computed(() => props.type === 'water');
+  const isWater = computed(() => props.type === 'WATER');
 
   onMounted(async () => {
     await updateChart();
@@ -18,12 +19,20 @@
   };
 
   const loadData = async (dateType: string = '3') => {
-    return await Promise.resolve([
-      ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6].map(item => item * +dateType),
-      [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6].map(item => item * +dateType),
-      [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3].map(item => item * +dateType),
-    ]);
+    try {
+      const data = await chart({
+        dateType,
+        dataType: props.type,
+      });
+      return [
+        data.map(item => item.xName),
+        data.map(item => item.value),
+        data.map(item => item.qoq),
+        data.map(item => item.yoy),
+      ];
+    } catch (_) {
+      return [[], [], [], []];
+    }
   };
 
   const getOption = (data: any) => {

@@ -24,3 +24,11 @@ export const getYbDetailPage = (data: Api.YbDetailData) => {
 export const exportYbDetail = (data: Api.YbDetailExportData) => {
   return requestClient.download('/device/history/analysis/export', data);
 };
+
+export const chart = (data: Api.ChartData) => {
+  return requestClient.post<Array<Api.ChartResult>>('/device/chart', data);
+};
+
+export const top = (data: Api.ChartTopData) => {
+  return requestClient.post<Array<Api.ChartTopResult>>('/device/top', data);
+};

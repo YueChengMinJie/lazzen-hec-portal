@@ -7,24 +7,24 @@
     <div class="flex flex-row justify-between">
       <ChartItem title="水流量耗能环比" type="水">
         <template #chart="{ setSlotRef }">
-          <WaterGasChart :ref="setSlotRef" :type="'water'" />
+          <WaterGasChart :ref="setSlotRef" :type="'WATER'" />
         </template>
       </ChartItem>
       <ChartItem title="用水排行榜TOP5" type="水">
         <template #chart="{ setSlotRef }">
-          <WaterGasTopChart :ref="setSlotRef" :type="'water'" />
+          <WaterGasTopChart :ref="setSlotRef" :type="'WATER'" />
         </template>
       </ChartItem>
     </div>
     <div class="flex flex-row justify-between">
       <ChartItem title="汽流量耗能环比" type="汽">
         <template #chart="{ setSlotRef }">
-          <WaterGasChart :ref="setSlotRef" :type="'gas'" />
+          <WaterGasChart :ref="setSlotRef" :type="'STEAM'" />
         </template>
       </ChartItem>
       <ChartItem title="用汽排行榜TOP5" type="汽">
         <template #chart="{ setSlotRef }">
-          <WaterGasTopChart :ref="setSlotRef" :type="'gas'" />
+          <WaterGasTopChart :ref="setSlotRef" :type="'STEAM'" />
         </template>
       </ChartItem>
     </div>
