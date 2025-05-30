@@ -25,10 +25,10 @@ server {
 ```
 ## route
 ```text
-/dcybh 低残压保护
-/gwmpcwg 高温母排测温柜
-/jxtx 机械特性
+/dcymxbh 低残压保护
+/gwmpcw 高温母排测温柜
+/jxtx3 机械特性
 /qyb 汽中控
 /sqjsc 水汽驾驶仓
-/szk 水中控
+/syb 水中控
 ```
