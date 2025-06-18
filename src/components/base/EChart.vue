@@ -6,7 +6,7 @@
   const chartRef = ref<HTMLElement>();
 
   onMounted(() => {
-    chart.value = echarts.init(chartRef.value, 'dark');
+    chart.value = markRaw(echarts.init(chartRef.value, 'dark'));
   });
 
   defineExpose({
