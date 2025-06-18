@@ -25,7 +25,7 @@
         dataType: props.type,
       });
       return [
-        data.map(item => item.xName),
+        data.map(item => item.xname),
         data.map(item => item.value),
         data.map(item => item.qoq),
         data.map(item => item.yoy),

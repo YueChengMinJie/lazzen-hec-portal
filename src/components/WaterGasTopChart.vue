@@ -26,7 +26,7 @@
         dataType: props.type,
         top: 5,
       });
-      return [data.map(item => item.name), data.map(item => item.value)];
+      return [data.map(item => item.value), data.map(item => item.name)];
     } catch (_) {
       return [[], []];
     }
@@ -36,6 +36,9 @@
     const xData = data[0];
     const yData = data[1];
     return {
+      grid: {
+        left: '14%',
+      },
       backgroundColor: 'transparent',
       xAxis: {
         max: 'dataMax',

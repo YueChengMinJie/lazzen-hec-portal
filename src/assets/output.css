@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.7 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.9 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -167,24 +167,6 @@
   .relative {
     position: relative;
   }
-  .container {
-    width: 100%;
-    @media (width >= 40rem) {
-      max-width: 40rem;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem;
-    }
-    @media (width >= 96rem) {
-      max-width: 96rem;
-    }
-  }
   .mx-\[16px\] {
     margin-inline: 16px;
   }
@@ -211,9 +193,6 @@
   }
   .ml-\[6px\] {
     margin-left: 6px;
-  }
-  .ml-\[10px\] {
-    margin-left: 10px;
   }
   .ml-\[14px\] {
     margin-left: 14px;
@@ -257,9 +236,6 @@
   .h-\[63px\] {
     height: 63px;
   }
-  .h-\[100px\] {
-    height: 100px;
-  }
   .h-\[100vh\] {
     height: 100vh;
   }
@@ -268,9 +244,6 @@
   }
   .h-\[246px\] {
     height: 246px;
-  }
-  .h-\[300px\] {
-    height: 300px;
   }
   .h-\[315px\] {
     height: 315px;
@@ -313,6 +286,12 @@
   }
   .w-\[370px\] {
     width: 370px;
+  }
+  .w-\[400px\] {
+    width: 400px;
+  }
+  .w-\[450px\] {
+    width: 450px;
   }
   .w-\[460px\] {
     width: 460px;
@@ -374,17 +353,8 @@
   .justify-start {
     justify-content: flex-start;
   }
-  .gap-1 {
-    gap: calc(var(--spacing) * 1);
-  }
-  .gap-2 {
-    gap: calc(var(--spacing) * 2);
-  }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
-  }
-  .gap-8 {
-    gap: calc(var(--spacing) * 8);
   }
   .gap-\[8px\] {
     gap: 8px;
@@ -471,9 +441,6 @@
   .border-\[var\(--color-border\)\] {
     border-color: var(--color-border);
   }
-  .border-\[var\(--primary-color\)\] {
-    border-color: var(--primary-color);
-  }
   .border-b-\[var\(--primary-color\)\] {
     border-bottom-color: var(--primary-color);
   }
@@ -501,14 +468,14 @@
   .p-\[16px\] {
     padding: 16px;
   }
+  .p-\[20px\] {
+    padding: 20px;
+  }
   .p-\[36px\] {
     padding: 36px;
   }
   .p-\[38px\] {
     padding: 38px;
-  }
-  .px-\[2px\] {
-    padding-inline: 2px;
   }
   .px-\[10px\] {
     padding-inline: 10px;
@@ -537,38 +504,20 @@
   .pt-\[22px\] {
     padding-top: 22px;
   }
-  .pr-\[5px\] {
-    padding-right: 5px;
-  }
   .pr-\[10px\] {
     padding-right: 10px;
   }
   .pr-\[15px\] {
     padding-right: 15px;
   }
-  .pb-\[2px\] {
-    padding-bottom: 2px;
-  }
   .pb-\[4px\] {
     padding-bottom: 4px;
-  }
-  .pb-\[6px\] {
-    padding-bottom: 6px;
-  }
-  .pb-\[10px\] {
-    padding-bottom: 10px;
-  }
-  .pl-\[30px\] {
-    padding-left: 30px;
   }
   .pl-\[35px\] {
     padding-left: 35px;
   }
   .pl-\[90px\] {
     padding-left: 90px;
-  }
-  .pl-\[100px\] {
-    padding-left: 100px;
   }
   .text-right {
     text-align: right;
@@ -595,10 +544,6 @@
   .leading-\[18px\] {
     --tw-leading: 18px;
     line-height: 18px;
-  }
-  .leading-\[20px\] {
-    --tw-leading: 20px;
-    line-height: 20px;
   }
   .font-medium {
     --tw-font-weight: var(--font-weight-medium);

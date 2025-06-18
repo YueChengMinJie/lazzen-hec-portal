@@ -71,7 +71,7 @@ export namespace Api {
   }
 
   export interface ChartResult {
-    xName: string;
+    xname: string;
     value: number;
     qoq: number;
     yoy: number;

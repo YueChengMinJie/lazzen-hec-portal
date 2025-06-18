@@ -22,6 +22,7 @@
   const formState = reactive({ status: undefined, name: '' });
   const list = ref<Array<Api.YbResult>>([]);
   const open = ref(false);
+  const loading = ref(false);
   const selectId = ref();
   const selectItem = ref();
   const dateTimeRange = ref<RangeValue>([dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')]);
@@ -95,7 +96,12 @@
     await loadPage();
   };
   const handleDownloadClick = async () => {
-    await qzkStore.exportPage(dateTimeRange.value, selectId.value, domainCode, selectItem.value);
+    loading.value = true;
+    try {
+      await qzkStore.exportPage(dateTimeRange.value, selectId.value, domainCode, selectItem.value);
+    } finally {
+      loading.value = false;
+    }
   };
   const disabledDate = (current: Dayjs) => {
     const tooEarly = current.isBefore(dayjs().subtract(1, 'month'), 'day');
@@ -191,7 +197,10 @@
             :disabled-date="disabledDate"
             @change="handleDateRangeChange"
           />
-          <Download class="ml-[30px] cursor-pointer" @click="handleDownloadClick" />
+          <div class="ml-[30px]" v-if="loading">
+            <a-spin />
+          </div>
+          <Download class="ml-[30px] cursor-pointer" @click="handleDownloadClick" v-else />
         </div>
       </div>
       <a-table :dataSource="dataSource" :columns="columns" :pagination="pagination" />

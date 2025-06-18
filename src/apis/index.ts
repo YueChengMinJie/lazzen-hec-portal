@@ -22,7 +22,9 @@ export const getYbDetailPage = (data: Api.YbDetailData) => {
 };
 
 export const exportYbDetail = (data: Api.YbDetailExportData) => {
-  return requestClient.download('/device/history/analysis/export', data);
+  return requestClient.download('/device/history/analysis/export', data, {
+    timeout: 5 * 60 * 1000,
+  });
 };
 
 export const chart = (data: Api.ChartData) => {
