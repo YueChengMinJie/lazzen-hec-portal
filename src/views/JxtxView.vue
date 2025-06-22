@@ -29,12 +29,13 @@
     return false;
   }
 
-  const filterVal = (idx: number, val: string | null | undefined) => {
-    if (idx === 0) {
+  const filterVal = (item: Api.CurrentDataResult) => {
+    const val = item.value;
+    if (item.name === '运行峰值电流') {
       return val ? `${val}A` : '';
-    } else if (idx === 1) {
+    } else if (item.name === '储能电机状态') {
       return val === '0' ? '已储能' : '未储能';
-    } else if (idx === 2 || idx === 5) {
+    } else if (item.name?.indexOf('分合闸位置') !== -1) {
       if (val === '0') {
         return '分闸';
       } else if (val === '1') {
@@ -50,7 +51,7 @@
       } else {
         return '待机';
       }
-    } else if (idx === 4) {
+    } else if (item.name === '断路器运行位置') {
       if (val === '0') {
         return '试验位';
       } else if (val === '1') {
@@ -69,6 +70,16 @@
     }
     return val;
   };
+
+  const firstIcon = (item: Api.CurrentDataResult) => {
+    return item.name === '运行峰值电流';
+  };
+  const secondIcon = (item: Api.CurrentDataResult) => {
+    return item.name === '储能电机状态';
+  };
+  const thirdIcon = (item: Api.CurrentDataResult) => {
+    return item.name === '接地开关分合闸位置';
+  };
 </script>
 
 <template>
@@ -80,18 +91,18 @@
           <div class="right-middle">参数</div>
           <div class="pt-[10px] flex flex-row flex-wrap right-bottom">
             <div
-              v-for="(item, idx) in headers"
+              v-for="item in headers"
               :key="item.id"
               class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
             >
               <div class="flex justify-center items-center">
-                <Jxtx1 v-if="idx === 0" />
-                <Jxtx2 v-else-if="idx === 1" />
-                <Jxtx3 v-else-if="idx === 2" />
+                <Jxtx1 v-if="firstIcon(item)" />
+                <Jxtx2 v-else-if="secondIcon(item)" />
+                <Jxtx3 v-else-if="thirdIcon(item)" />
                 <Jxtx4 v-else />
               </div>
               <div class="flex flex-col">
-                <div class="value">{{ filterVal(idx, item.value) }}</div>
+                <div class="value">{{ filterVal(item) }}</div>
                 <div>{{ item.name }}</div>
               </div>
             </div>
@@ -133,26 +144,26 @@
   }
 
   .right-bottom {
+    .right-bottom-child:nth-child(1) {
+      border-right: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
     .right-bottom-child:nth-child(2) {
-      border-left: 1px solid var(--color-border);
+      border-right: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
     }
 
     .right-bottom-child:nth-child(3) {
-      border-left: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
     }
 
     .right-bottom-child:nth-child(4) {
-      border-top: 1px solid var(--color-border);
+      border-right: 1px solid var(--color-border);
     }
 
     .right-bottom-child:nth-child(5) {
-      border-top: 1px solid var(--color-border);
-      border-left: 1px solid var(--color-border);
-    }
-
-    .right-bottom-child:nth-child(6) {
-      border-top: 1px solid var(--color-border);
-      border-left: 1px solid var(--color-border);
+      border-right: 1px solid var(--color-border);
     }
   }
 </style>
