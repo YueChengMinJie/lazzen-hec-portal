@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
-import { exportYbDetail, getQybList, getYbDetailPage } from '@/apis';
+import { exportYbDetail, getQybList, getYbDetailPage, querySqYbAlias, saveSqYbAlias } from '@/apis';
 import type { RangeValue } from '@/types';
 import fileDownload from 'js-file-download';
 import type { Api } from '@/types/api.ts';
+import type { SqYbAliasForm } from '@/types/component.ts';
 
 export const useQzk = defineStore('qzk', () => {
   async function loadList(domainCode: string, status: undefined | string, name: string) {
@@ -63,9 +64,19 @@ export const useQzk = defineStore('qzk', () => {
     fileDownload(resData, fileName);
   }
 
+  async function loadAlias() {
+    return await querySqYbAlias({ type: 2 });
+  }
+
+  async function saveAlias(form: SqYbAliasForm) {
+    return await saveSqYbAlias({ ...form, type: 2 });
+  }
+
   return {
     loadList,
     loadPage,
     exportPage,
+    loadAlias,
+    saveAlias,
   };
 });

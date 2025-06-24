@@ -61,7 +61,9 @@ export namespace Api {
     totalValue: string;
     momentPointCode: string;
     forwardPointCode: string;
+    forwardValue: string;
     reversePointCode?: string;
+    reverseValue?: string;
   }
 
   export interface YbDetailResult {
@@ -85,5 +87,15 @@ export namespace Api {
   export interface ParamExportParams {
     domainCode: string;
     param: string;
+  }
+
+  export interface SqYbAliasParams {
+    type: number;
+  }
+
+  export interface SqYbAliasDto {
+    type: number;
+    idx: number;
+    name: string;
   }
 }

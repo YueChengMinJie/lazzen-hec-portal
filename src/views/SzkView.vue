@@ -2,6 +2,7 @@
   import type { RangeValue } from '@/types';
   import type { FormInstance } from 'ant-design-vue';
   import type { Api } from '@/types/api';
+  import type { SqYbAliasForm } from '@/types/component.ts';
 
   import { useData, useDomainCode, usePagination } from '@/utils/hook';
   import Syb from '@/assets/svg/syb.svg?component';
@@ -27,6 +28,16 @@
   const selectItem = ref();
   const dateTimeRange = ref<RangeValue>([dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')]);
   const dataSource = ref<Array<Api.YbDetailResult>>([]);
+  const sqYbAlias = reactive({
+    list: [] as Array<Api.SqYbAliasDto>,
+    form: {
+      idx: '0',
+      name: '',
+    } as SqYbAliasForm,
+    open: false,
+    confirmLoading: false,
+    current: {} as Api.YbResult,
+  });
   const columns = [
     {
       title: '日期',
@@ -46,8 +57,12 @@
   async function loadData() {
     if (domainCode) {
       try {
-        const [data1] = await Promise.all([szkStore.loadList(domainCode, formState.status, formState.name)]);
+        const [data1, data2] = await Promise.all([
+          szkStore.loadList(domainCode, formState.status, formState.name),
+          szkStore.loadAlias(),
+        ]);
         list.value = data1 || [];
+        sqYbAlias.list = data2 || [];
         return true;
       } catch (e) {
         console.error('请求错误', e);
@@ -108,6 +123,29 @@
     const tooLate = current.isAfter(dayjs(), 'day');
     return tooEarly || tooLate;
   };
+  const handleNameClick = (item: Api.YbResult, name: string) => {
+    sqYbAlias.open = true;
+    sqYbAlias.current = item;
+    sqYbAlias.form.name = name;
+    sqYbAlias.form.idx = item.id;
+  };
+  const getName = (item: Api.YbResult) => {
+    const alias = sqYbAlias.list.find((i: Api.SqYbAliasDto) => i.idx + '' === item.id);
+    if (alias) {
+      return alias.name;
+    }
+    return item.name;
+  };
+  const handleSave = async () => {
+    sqYbAlias.confirmLoading = true;
+    try {
+      await szkStore.saveAlias(sqYbAlias.form);
+      await loadData();
+    } finally {
+      sqYbAlias.confirmLoading = false;
+      sqYbAlias.open = false;
+    }
+  };
 </script>
 
 <template>
@@ -145,11 +183,12 @@
       <div
         v-for="item in list"
         :key="item.id"
-        class="w-[339px] h-[228px] bg-[var(--bg-color)] rounded-[8px] border border-solid border-[var(--color-border)]"
+        class="w-[339px] h-[268px] bg-[var(--bg-color)] rounded-[8px] border border-solid border-[var(--color-border)]"
       >
         <div class="h-[58px] flex flex-row items-center gap-[8px] border-b border-solid border-[var(--color-border)]">
           <Syb class="ml-[16px]" />
-          <div class="text-white font-medium text-[20px]">{{ item.name }}</div>
+          <div class="text-white font-medium text-[20px]">{{ getName(item) }}</div>
+          <EditOutlined class="cursor-pointer" @click="handleNameClick(item, getName(item))" />
         </div>
         <div
           :class="{
@@ -162,12 +201,17 @@
           <div class="flex flex-row items-center gap-[13px]">
             <Ssll class="ml-[16px]" />
             <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">瞬时流量</div>
-            <div class="text-white font-medium text-[18px]">{{ item.value }}</div>
+            <div class="text-white font-medium text-[18px]">{{ item.value || '0.00' }}m³/h</div>
           </div>
           <div class="flex flex-row items-center gap-[13px] mt-[10px]">
             <Zll class="ml-[16px]" />
-            <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">总流量</div>
-            <div class="text-white font-medium text-[18px]">{{ item.totalValue }}</div>
+            <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">正向流量</div>
+            <div class="text-white font-medium text-[18px]">{{ item.forwardValue || '0.00' }}m³</div>
+          </div>
+          <div class="flex flex-row items-center gap-[13px] mt-[10px]">
+            <Zll class="ml-[16px]" />
+            <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">反向流量</div>
+            <div class="text-white font-medium text-[18px]">{{ item.reverseValue || '0.00' }}m³</div>
           </div>
         </div>
         <div class="px-[16px] flex flex-row justify-between items-center">
@@ -204,6 +248,10 @@
         </div>
       </div>
       <a-table :dataSource="dataSource" :columns="columns" :pagination="pagination" />
+    </a-modal>
+
+    <a-modal v-model:open="sqYbAlias.open" title="保存" :confirm-loading="sqYbAlias.confirmLoading" @ok="handleSave">
+      <p><a-input v-model:value="sqYbAlias.form.name" placeholder="请输入" @press-enter="handleSave" /></p>
     </a-modal>
   </div>
 </template>

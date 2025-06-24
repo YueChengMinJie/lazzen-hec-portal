@@ -8,3 +8,9 @@ export interface ParamChartData {
   xAxisData: string[];
   seriesData: number[];
 }
+
+export interface SqYbAliasForm {
+  type: number;
+  idx: string;
+  name: string;
+}

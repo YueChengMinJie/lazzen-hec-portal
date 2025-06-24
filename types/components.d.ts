@@ -23,6 +23,7 @@ declare module 'vue' {
     ATable: typeof import('ant-design-vue/es')['Table']
     ChartItem: typeof import('./../src/components/ChartItem.vue')['default']
     EChart: typeof import('./../src/components/base/EChart.vue')['default']
+    EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
     OnlineStatus: typeof import('./../src/components/OnlineStatus.vue')['default']
     ParamChart: typeof import('./../src/components/ParamChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
