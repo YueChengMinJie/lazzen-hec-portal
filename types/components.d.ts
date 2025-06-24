@@ -24,6 +24,7 @@ declare module 'vue' {
     ChartItem: typeof import('./../src/components/ChartItem.vue')['default']
     EChart: typeof import('./../src/components/base/EChart.vue')['default']
     OnlineStatus: typeof import('./../src/components/OnlineStatus.vue')['default']
+    ParamChart: typeof import('./../src/components/ParamChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     WaterGasChart: typeof import('./../src/components/WaterGasChart.vue')['default']

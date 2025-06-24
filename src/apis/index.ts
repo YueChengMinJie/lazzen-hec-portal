@@ -34,3 +34,9 @@ export const chart = (data: Api.ChartData) => {
 export const top = (data: Api.ChartTopData) => {
   return requestClient.post<Array<Api.ChartTopResult>>('/device/top', data);
 };
+
+export const paramExport = (data: Api.ParamExportParams) => {
+  return requestClient.download('/device/param/export', data, {
+    timeout: 5 * 60 * 1000,
+  });
+};

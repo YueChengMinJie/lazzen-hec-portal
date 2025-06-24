@@ -5,20 +5,39 @@
   import Jxtx2 from '@/assets/svg/jxtx2.svg?component';
   import Jxtx3 from '@/assets/svg/jxtx3.svg?component';
   import Jxtx4 from '@/assets/svg/jxtx4.svg?component';
+  import Download from '@/assets/svg/download.svg?component';
   import { useData, useDomainCode } from '@/utils/hook.ts';
   import { useJxtx } from '@/stores/jxtx.ts';
+  import ParamChart from '@/components/ParamChart.vue';
+  import type { ParamChartData } from '@/types/component.ts';
 
   const jxtxStore = useJxtx();
   const domainCode = useDomainCode();
   const { pause } = useData(domainCode, loadData);
 
   const headers = ref<Array<Api.CurrentDataResult>>([]);
+  const chart = ref();
+  const data = reactive({
+    list: ['分闸波形', '合闸波形', '储能波形'],
+    current: 0,
+    chartData: {
+      xAxisData: [],
+      seriesData: [],
+    } as ParamChartData,
+  });
+
+  function updateChart(x: Array<string>, y: Array<number>) {
+    data.chartData.xAxisData = x;
+    data.chartData.seriesData = y;
+    chart.value.updateChart();
+  }
 
   async function loadData() {
     if (domainCode) {
       try {
-        const [data1] = await Promise.all([jxtxStore.loadJxtx(domainCode)]);
-        headers.value = data1;
+        const [[filter, x, y]] = await Promise.all([jxtxStore.loadJxtx(domainCode)]);
+        headers.value = filter as Array<Api.CurrentDataResult>;
+        updateChart(x as Array<string>, y as Array<number>);
         return true;
       } catch (e) {
         console.error('请求错误', e);
@@ -30,66 +49,39 @@
   }
 
   const filterVal = (item: Api.CurrentDataResult) => {
-    const val = item.value;
-    if (item.name === '运行峰值电流') {
-      return val ? `${val}A` : '';
-    } else if (item.name === '储能电机状态') {
-      return val === '0' ? '已储能' : '未储能';
-    } else if (item.name?.indexOf('分合闸位置') !== -1) {
-      if (val === '0') {
-        return '分闸';
-      } else if (val === '1') {
-        return '合闸';
-      } else if (val === '2') {
-        return '分闸中';
-      } else if (val === '3') {
-        return '合闸中';
-      } else if (val === '4') {
-        return '中间位置';
-      } else if (val === '5') {
-        return '操作过程中';
-      } else {
-        return '待机';
-      }
-    } else if (item.name === '断路器运行位置') {
-      if (val === '0') {
-        return '试验位';
-      } else if (val === '1') {
-        return '工作位';
-      } else if (val === '2') {
-        return '出车中';
-      } else if (val === '3') {
-        return '进车中';
-      } else if (val === '4') {
-        return '中间位置';
-      } else if (val === '5') {
-        return '操作过程中';
-      } else {
-        return '待机';
-      }
-    }
-    return val;
+    return `${item.value}${item.unit}`;
   };
 
   const firstIcon = (item: Api.CurrentDataResult) => {
-    return item.name === '运行峰值电流';
+    return item.unit === 'A';
   };
   const secondIcon = (item: Api.CurrentDataResult) => {
-    return item.name === '储能电机状态';
+    return item.name.indexOf('储能电机运行状态') !== -1;
   };
   const thirdIcon = (item: Api.CurrentDataResult) => {
-    return item.name === '接地开关分合闸位置';
+    return item.name.indexOf('位') !== -1;
+  };
+
+  const handleDownloadClick = async () => {
+    await jxtxStore.exportParam(domainCode, data.list[data.current]);
+  };
+  const handleParamClick = (item: string, idx: number) => {
+    data.current = idx;
+    const [x, y] = jxtxStore.changeParam(item);
+    updateChart(x as Array<string>, y as Array<number>);
   };
 </script>
 
 <template>
   <div class="h-screen flex flex-col">
-    <div class="border border-[var(--color-border)] bg-[var(--bg-color)] h-[340px] p-8 flex flex-row gap-[9px]">
-      <div class="w-full h-full">
+    <div class="border border-[var(--color-border)] bg-[var(--bg-color)] p-8 flex flex-row gap-[9px]">
+      <div class="w-full">
         <div class="right-top"> 机械特性 </div>
         <div class="ml-[15px]">
           <div class="right-middle">参数</div>
-          <div class="pt-[10px] flex flex-row flex-wrap right-bottom">
+          <div
+            class="pt-[10px] flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
+          >
             <div
               v-for="item in headers"
               :key="item.id"
@@ -110,10 +102,27 @@
         </div>
       </div>
     </div>
-    <div
-      class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] flex-1 flex justify-center items-center"
-    >
-      <div class="text-[#8F8F92]">暂无数据</div>
+    <div class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] h-[388px]">
+      <div class="text-[16px] font-semibold flex flex-row justify-between items-center">
+        <span class="border-b-2 border-b-[var(--primary-color)] pb-[6px] text-[#FFF]">波形参数</span>
+        <div class="flex flex-row gap-[10px]">
+          <div
+            v-for="(item, idx) in data.list"
+            :key="item"
+            :class="{
+              'text-[#FFF]': data.current === idx,
+              'param-item': true,
+            }"
+            @click="handleParamClick(item, idx)"
+          >
+            {{ item }}
+          </div>
+          <Download class="cursor-pointer self-center" @click="handleDownloadClick" />
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <ParamChart ref="chart" :chartData="data.chartData" />
+      </div>
     </div>
   </div>
 </template>
@@ -135,6 +144,7 @@
     color: var(--color-heading);
     padding-bottom: 16px;
     padding-top: 14px;
+    line-height: 29px;
   }
 
   .value {
@@ -144,26 +154,24 @@
   }
 
   .right-bottom {
-    .right-bottom-child:nth-child(1) {
+    .right-bottom-child:nth-child(3n + 1) {
       border-right: 1px solid var(--color-border);
       border-bottom: 1px solid var(--color-border);
     }
 
-    .right-bottom-child:nth-child(2) {
+    .right-bottom-child:nth-child(3n + 2) {
       border-right: 1px solid var(--color-border);
       border-bottom: 1px solid var(--color-border);
     }
 
-    .right-bottom-child:nth-child(3) {
+    .right-bottom-child:nth-child(3n + 3) {
       border-bottom: 1px solid var(--color-border);
     }
+  }
 
-    .right-bottom-child:nth-child(4) {
-      border-right: 1px solid var(--color-border);
-    }
-
-    .right-bottom-child:nth-child(5) {
-      border-right: 1px solid var(--color-border);
-    }
+  .param-item {
+    cursor: pointer;
+    padding-right: 10px;
+    border-right: 1px solid var(--color-border);
   }
 </style>

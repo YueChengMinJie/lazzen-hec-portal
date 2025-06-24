@@ -81,4 +81,9 @@ export namespace Api {
     name: string;
     value: number;
   }
+
+  export interface ParamExportParams {
+    domainCode: string;
+    param: string;
+  }
 }
