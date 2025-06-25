@@ -8,9 +8,9 @@ import type { SqYbAliasForm } from '@/types/component.ts';
 export const useQzk = defineStore('qzk', () => {
   async function loadList(domainCode: string, status: undefined | string, name: string) {
     if (status === undefined) {
-      return await getQybList({ domainCode, waterDeviceName: name });
+      return await getQybList({ domainCode, steamDeviceName: name });
     } else {
-      return await getQybList({ domainCode, link: status === '1', waterDeviceName: name });
+      return await getQybList({ domainCode, link: status === '1', steamDeviceName: name });
     }
   }
 

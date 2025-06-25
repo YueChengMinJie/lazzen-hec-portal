@@ -20,6 +20,7 @@ export namespace Api {
   export interface YbData extends CommonParams {
     link?: boolean;
     waterDeviceName?: string;
+    steamDeviceName?: string;
   }
 
   export interface YbDetailData extends CommonParams, PageParams {
