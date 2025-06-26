@@ -21,6 +21,8 @@ declare module 'vue' {
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATable: typeof import('ant-design-vue/es')['Table']
+    ATabPane: typeof import('ant-design-vue/es')['TabPane']
+    ATabs: typeof import('ant-design-vue/es')['Tabs']
     ChartItem: typeof import('./../src/components/ChartItem.vue')['default']
     EChart: typeof import('./../src/components/base/EChart.vue')['default']
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']

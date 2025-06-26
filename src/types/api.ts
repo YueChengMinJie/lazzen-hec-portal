@@ -52,6 +52,7 @@ export namespace Api {
     name: string;
     value: string | null | undefined;
     unit: string;
+    code: string;
   }
 
   export interface YbResult {

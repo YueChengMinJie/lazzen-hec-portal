@@ -67,7 +67,7 @@
                 <Gygmpcw6 v-if="idx === 5" />
               </div>
               <div class="flex flex-col">
-                <div class="value">{{ item.value }}</div>
+                <div class="value">{{ item.value }}{{ item.unit }}</div>
                 <div>{{ item.name }}</div>
               </div>
             </div>

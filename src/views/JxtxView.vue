@@ -25,6 +25,7 @@
       seriesData: [],
     } as ParamChartData,
   });
+  const activeKey = ref('1');
 
   function updateChart(x: Array<string>, y: Array<number>) {
     data.chartData.xAxisData = x;
@@ -78,27 +79,52 @@
       <div class="w-full">
         <div class="right-top"> 机械特性 </div>
         <div class="ml-[15px]">
-          <div class="right-middle">参数</div>
-          <div
-            class="pt-[10px] flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
-          >
-            <div
-              v-for="item in headers"
-              :key="item.id"
-              class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
-            >
-              <div class="flex justify-center items-center">
-                <Jxtx1 v-if="firstIcon(item)" />
-                <Jxtx2 v-else-if="secondIcon(item)" />
-                <Jxtx3 v-else-if="thirdIcon(item)" />
-                <Jxtx4 v-else />
+          <a-tabs v-model:activeKey="activeKey">
+            <a-tab-pane key="1" tab="运行数据">
+              <div
+                class="flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
+              >
+                <div
+                  v-for="item in headers.filter(v => v.code.startsWith('4'))"
+                  :key="item.id"
+                  class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
+                >
+                  <div class="flex justify-center items-center">
+                    <Jxtx1 v-if="firstIcon(item)" />
+                    <Jxtx2 v-else-if="secondIcon(item)" />
+                    <Jxtx3 v-else-if="thirdIcon(item)" />
+                    <Jxtx4 v-else />
+                  </div>
+                  <div class="flex flex-col">
+                    <div class="value">{{ filterVal(item) }}</div>
+                    <div>{{ item.name }}</div>
+                  </div>
+                </div>
               </div>
-              <div class="flex flex-col">
-                <div class="value">{{ filterVal(item) }}</div>
-                <div>{{ item.name }}</div>
+            </a-tab-pane>
+            <a-tab-pane key="2" tab="报警数据">
+              <div
+                class="flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
+              >
+                <div
+                  v-for="item in headers.filter(v => v.code.startsWith('0'))"
+                  :key="item.id"
+                  class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
+                >
+                  <div class="flex justify-center items-center">
+                    <Jxtx1 v-if="firstIcon(item)" />
+                    <Jxtx2 v-else-if="secondIcon(item)" />
+                    <Jxtx3 v-else-if="thirdIcon(item)" />
+                    <Jxtx4 v-else />
+                  </div>
+                  <div class="flex flex-col">
+                    <div class="value">{{ filterVal(item) }}</div>
+                    <div>{{ item.name }}</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </a-tab-pane>
+          </a-tabs>
         </div>
       </div>
     </div>
@@ -136,15 +162,6 @@
     line-height: 34px;
     color: var(--color-heading);
     border-bottom: 1px solid var(--color-border);
-  }
-
-  .right-middle {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--color-heading);
-    padding-bottom: 16px;
-    padding-top: 14px;
-    line-height: 29px;
   }
 
   .value {

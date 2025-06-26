@@ -28,19 +28,11 @@
       xAxis: {
         type: 'category',
         data: data.xAxisData,
-        boundaryGap: false,
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: '#303440',
-          },
-        },
         axisLabel: {
-          interval: 0,
-          fontSize: 10,
-        },
-        axisTick: {
-          alignWithLabel: true,
+          interval: 0, // 显示所有标签
+          formatter: (value: string) => {
+            return value === '1' || +value % 50 === 0 ? value : '';
+          },
         },
       },
       yAxis: {
@@ -65,12 +57,6 @@
             width: 2,
           },
           symbol: 'none',
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#303440',
-            },
-          },
         },
       ],
     };
@@ -82,7 +68,7 @@
 </script>
 
 <template>
-  <EChart ref="echart" class="w-[5000px] h-[300px]" />
+  <EChart ref="echart" class="w-[calc(100vw-40px)] h-[300px]" />
 </template>
 
 <style scoped></style>

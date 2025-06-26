@@ -384,6 +384,9 @@
   .w-\[33\%\] {
     width: 33%;
   }
+  .w-\[100vw\] {
+    width: 100vw;
+  }
   .w-\[339px\] {
     width: 339px;
   }
@@ -413,6 +416,12 @@
   }
   .w-\[calc\(\(100\%-36px\)\/2\)\] {
     width: calc((100% - 36px) / 2);
+  }
+  .w-\[calc\(100vw-20px\)\] {
+    width: calc(100vw - 20px);
+  }
+  .w-\[calc\(100vw-40px\)\] {
+    width: calc(100vw - 40px);
   }
   .w-full {
     width: 100%;
