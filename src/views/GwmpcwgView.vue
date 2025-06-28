@@ -30,7 +30,7 @@
           gwmpcwgStore.loadGwmpcwg(domainCode),
         ]);
         online.value = data1;
-        headers.value = data2;
+        headers.value = data2.filter(item => item.name.indexOf('报警') === -1);
         return true;
       } catch (e) {
         console.error('请求错误', e);
