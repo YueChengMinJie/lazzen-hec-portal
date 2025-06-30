@@ -24,6 +24,7 @@ declare module 'vue' {
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ChartItem: typeof import('./../src/components/ChartItem.vue')['default']
+    CurveChart: typeof import('./../src/components/CurveChart.vue')['default']
     EChart: typeof import('./../src/components/base/EChart.vue')['default']
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
     OnlineStatus: typeof import('./../src/components/OnlineStatus.vue')['default']

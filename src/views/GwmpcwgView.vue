@@ -12,6 +12,7 @@
   import Gygmpcw6 from '@/assets/svg/gygmpcw6.svg?component';
   import OnlineStatus from '@/components/OnlineStatus.vue';
   import { useDomainCode, useData } from '@/utils/hook.ts';
+  import type { CurveChartData } from '@/types/component.ts';
 
   const deviceStore = useDevice();
   const gwmpcwgStore = useGwmpcwg();
@@ -20,17 +21,29 @@
 
   const headers = ref<Array<Api.CurrentDataResult>>([]);
   const online = ref(false);
+  const curveData = ref<CurveChartData>({
+    legendData: [],
+    xAxisData: [],
+    seriesData: [],
+  });
   const params = reactive(gwmpcwgData);
+  const activeKey = ref('1');
 
   async function loadData() {
     if (domainCode) {
       try {
-        const [data1, data2] = await Promise.all([
+        const [data1, data2, data3] = await Promise.all([
           deviceStore.loadStatus(domainCode),
           gwmpcwgStore.loadGwmpcwg(domainCode),
+          gwmpcwgStore.loadCurve(domainCode),
         ]);
         online.value = data1;
         headers.value = data2.filter(item => item.name.indexOf('报警') === -1);
+        curveData.value = {
+          legendData: data3.legendData,
+          xAxisData: data3.xaxisData,
+          seriesData: data3.seriesData,
+        };
         return true;
       } catch (e) {
         console.error('请求错误', e);
@@ -76,13 +89,19 @@
       </div>
     </div>
     <div class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] flex-1 overflow-y-auto">
-      <div class="bottom-top">产品参数</div>
-      <div class="flex flex-row flex-wrap param">
-        <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row param-child">
-          <div class="param-label">{{ item.label }}</div>
-          <div class="param-value" :title="item.value">{{ item.value }}</div>
-        </div>
-      </div>
+      <a-tabs v-model:activeKey="activeKey">
+        <a-tab-pane key="1" tab="产品参数">
+          <div class="flex flex-row flex-wrap param">
+            <div v-for="item in params" :key="item.id" class="w-1/2 flex flex-row param-child">
+              <div class="param-label">{{ item.label }}</div>
+              <div class="param-value" :title="item.value">{{ item.value }}</div>
+            </div>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="历史数据">
+          <CurveChart :chart-data="curveData" />
+        </a-tab-pane>
+      </a-tabs>
     </div>
   </div>
 </template>
@@ -140,13 +159,6 @@
       border-top: 1px solid var(--color-border);
       border-left: 1px solid var(--color-border);
     }
-  }
-
-  .bottom-top {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--color-heading);
-    padding-bottom: 16px;
   }
 
   .param {

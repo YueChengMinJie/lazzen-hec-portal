@@ -100,4 +100,10 @@ export namespace Api {
     idx: number;
     name: string;
   }
+
+  export interface CurveDto {
+    legendData: string[];
+    xaxisData: string[];
+    seriesData: string[][];
+  }
 }

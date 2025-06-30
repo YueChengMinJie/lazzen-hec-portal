@@ -1,6 +1,6 @@
 import { requestClient } from '@/utils/request';
 import type { Api } from '@/types/api.ts';
-import type { SqYbAliasForm } from '@/types/component.ts';
+import type { CurveForm, SqYbAliasForm } from '@/types/component.ts';
 
 export const getStatus = (params: Api.CommonParams) => {
   return requestClient.get<boolean>('/device/status', { params });
@@ -48,4 +48,8 @@ export const querySqYbAlias = (params: Api.SqYbAliasParams) => {
 
 export const saveSqYbAlias = (form: SqYbAliasForm) => {
   return requestClient.post<boolean>('/device/sq/yb/alias', form);
+};
+
+export const curve = (form: CurveForm) => {
+  return requestClient.post<Api.CurveDto>('/device/curve', form);
 };

@@ -9,8 +9,19 @@ export interface ParamChartData {
   seriesData: number[];
 }
 
+export interface CurveChartData {
+  legendData: string[];
+  xAxisData: string[];
+  seriesData: string[][];
+}
+
 export interface SqYbAliasForm {
   type: number;
   idx: string;
   name: string;
+}
+
+export interface CurveForm {
+  domainCode: string;
+  deviceType: string;
 }
