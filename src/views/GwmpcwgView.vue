@@ -28,6 +28,7 @@
   });
   const params = reactive(gwmpcwgData);
   const activeKey = ref('1');
+  const chart = ref();
 
   async function loadData() {
     if (domainCode) {
@@ -44,6 +45,7 @@
           xAxisData: data3.xaxisData,
           seriesData: data3.seriesData,
         };
+        chart.value?.updateChart();
         return true;
       } catch (e) {
         console.error('请求错误', e);
@@ -99,7 +101,7 @@
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="历史数据">
-          <CurveChart :chart-data="curveData" />
+          <CurveChart ref="chart" :chart-data="curveData" />
         </a-tab-pane>
       </a-tabs>
     </div>
