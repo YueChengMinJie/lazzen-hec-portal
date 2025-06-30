@@ -53,6 +53,24 @@
     return `${item.value}${item.unit}`;
   };
 
+  const filterVal2 = (item: Api.CurrentDataResult) => {
+    if (item.name.indexOf('报警') !== -1) {
+      return item.value === '1' ? '预警' : '正常';
+    } else if (
+      item.name.indexOf('异常') !== -1 ||
+      item.name.indexOf('系统运行状态') !== -1 ||
+      item.name.indexOf('分合闸线圈状态') !== -1 ||
+      item.name.indexOf('分闸回路短路') !== -1 ||
+      item.name.indexOf('合闸回路短路') !== -1 ||
+      item.name.indexOf('副分闸回路短路') !== -1 ||
+      item.name.indexOf('储能电机运行状态') !== -1 ||
+      item.name.indexOf('储能电机回路短路') !== -1
+    ) {
+      return item.value === '1' ? '故障' : '正常';
+    }
+    return `${item.value}`;
+  };
+
   const firstIcon = (item: Api.CurrentDataResult) => {
     return item.unit === 'A';
   };
@@ -118,7 +136,7 @@
                     <Jxtx4 v-else />
                   </div>
                   <div class="flex flex-col">
-                    <div class="value">{{ filterVal(item) }}</div>
+                    <div class="value">{{ filterVal2(item) }}</div>
                     <div>{{ item.name }}</div>
                   </div>
                 </div>
