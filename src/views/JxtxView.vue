@@ -54,19 +54,58 @@
   };
 
   const filterVal2 = (item: Api.CurrentDataResult) => {
-    if (item.name.indexOf('报警') !== -1) {
-      return item.value === '1' ? '预警' : '正常';
-    } else if (
-      item.name.indexOf('异常') !== -1 ||
-      item.name.indexOf('系统运行状态') !== -1 ||
-      item.name.indexOf('分合闸线圈状态') !== -1 ||
-      item.name.indexOf('分闸回路短路') !== -1 ||
-      item.name.indexOf('合闸回路短路') !== -1 ||
-      item.name.indexOf('副分闸回路短路') !== -1 ||
-      item.name.indexOf('储能电机运行状态') !== -1 ||
-      item.name.indexOf('储能电机回路短路') !== -1
-    ) {
-      return item.value === '1' ? '故障' : '正常';
+    if (item.name === '断路器合闸位置') {
+      if (item.value === '0') {
+        return '分';
+      } else if (item.value === '1') {
+        return '合';
+      } else if (item.value === '2') {
+        return '异常分闸';
+      } else if (item.value === '3') {
+        return '未知';
+      }
+    } else if (item.name === '电机已储能') {
+      if (item.value === '0') {
+        return '已储能';
+      } else if (item.value === '1') {
+        return '未储能';
+      }
+    } else if (item.name.indexOf('报警') !== -1) {
+      return item.value === '1' ? '报警' : '正常';
+    } else if (item.name === '采集通讯状态异常') {
+      if (item.value === '0') {
+        return '正常';
+      } else if (item.value === '1') {
+        return '通讯异常';
+      }
+    } else if (item.name.indexOf('系统运行状态') !== -1 || item.name.indexOf('分合闸线圈状态') !== -1) {
+      return item.value === '1' ? '异常' : '正常';
+    } else if (item.name === '机构状态异常') {
+      if (item.value === '0') {
+        return '正常';
+      } else if (item.value === '1') {
+        return '弹簧疲劳、机构卡涩、传动润滑缺陷';
+      }
+    } else if (item.name === '辅助开关状态异常') {
+      if (item.value === '0') {
+        return '正常';
+      } else if (item.value === '1') {
+        return '辅助触点切换异常';
+      }
+    } else if (item.name === '分闸回路短路' || item.name === '合闸回路短路' || item.name === '副分闸回路短路') {
+      if (item.value === '0') {
+        return '正常';
+      } else if (item.value === '1') {
+        return '回路短路';
+      }
+    } else if (item.name.indexOf('储能电机运行状态') !== -1) {
+      return item.value === '1' ? '异常' : '正常';
+    } else if (item.name === '储能电机回路短路') {
+      if (item.value === '0') {
+        return '正常';
+      } else if (item.value === '1') {
+        return '回路短路';
+      }
     }
     return `${item.value}`;
   };
