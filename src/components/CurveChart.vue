@@ -3,6 +3,8 @@
 
   const props = defineProps<{
     chartData: CurveChartData;
+    top?: string;
+    bottom?: string;
   }>();
 
   const echart = ref<EChartExpose>();
@@ -19,8 +21,8 @@
     const option = {
       backgroundColor: 'transparent',
       grid: {
-        top: '10%',
-        bottom: '10%',
+        top: props.top || '10%',
+        bottom: props.bottom || '10%',
         left: '70px',
         right: '70px',
         containLabel: true,
@@ -59,7 +61,7 @@
 </script>
 
 <template>
-  <EChart ref="echart" class="w-[calc(100vw-40px)] h-[400px]" />
+  <EChart ref="echart" class="w-[calc(100vw-40px)]" />
 </template>
 
 <style scoped></style>

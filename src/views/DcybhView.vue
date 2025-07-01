@@ -2,12 +2,19 @@
   import { useData, useDomainCode } from '@/utils/hook.ts';
   import { useDcybh } from '@/stores/dcybh.ts';
   import type { DcybhChild, OtherStatusList, StatusList } from '@/types';
+  import type { CurveChartData } from '@/types/component.ts';
 
   const jxtxStore = useDcybh();
   const domainCode = useDomainCode();
   const { pause } = useData(domainCode, loadData);
 
   const headers = reactive<Record<string, string | null | undefined>>({});
+  const curveData = ref<CurveChartData>({
+    legendData: [],
+    xAxisData: [],
+    seriesData: [],
+  });
+  const chart = ref();
 
   const hystrixFilter = (val: string | null | undefined) => {
     if (val === '0') {
@@ -26,6 +33,11 @@
     }
     return '--';
   };
+
+  const vFilter = (val: string | null | undefined) => {
+    return val ? `${val}V` : '--';
+  };
+
   const statusList = ref<Array<StatusList>>([
     {
       header: '熔丝状态',
@@ -41,6 +53,15 @@
         { icon: 'yellow', name: 'A相接触器状态', key: 'A相接触器状态', filter: statusFilter },
         { icon: 'green', name: 'B相接触器状态', key: 'B相接触器状态', filter: statusFilter },
         { icon: 'red', name: 'C相接触器状态', key: 'C相接触器状态', filter: statusFilter },
+      ],
+    },
+    {
+      header: '电压',
+      children: [
+        { icon: 'yellow', name: 'A相电压', key: 'A相电压', filter: vFilter },
+        { icon: 'green', name: 'B相电压', key: 'B相电压', filter: vFilter },
+        { icon: 'red', name: 'C相电压', key: 'C相电压', filter: vFilter },
+        { icon: 'white', name: '开路电压', key: '开路电压', filter: vFilter },
       ],
     },
   ]);
@@ -86,10 +107,18 @@
   async function loadData() {
     if (domainCode) {
       try {
-        const [data1] = await Promise.all([jxtxStore.loadDcybh(domainCode)]);
+        const [data1, data2] = await Promise.all([jxtxStore.loadDcybh(domainCode), jxtxStore.loadCurve(domainCode)]);
         for (const currentDataResult of data1) {
           headers[currentDataResult.name] = currentDataResult.value;
         }
+        curveData.value = {
+          legendData: data2.legendData,
+          xAxisData: data2.xaxisData,
+          seriesData: data2.seriesData,
+        };
+        await nextTick(() => {
+          chart.value?.updateChart();
+        });
         return true;
       } catch (e) {
         console.error('请求错误', e);
@@ -135,7 +164,7 @@
 
       <div class="flex flex-row flex-wrap gap-[36px]">
         <div
-          class="w-[calc((100%-36px)/2)] h-[246px] border border-solid border-[var(--color-border)]"
+          class="w-[calc((100%-36px)/2)] border border-solid border-[var(--color-border)]"
           v-for="(item, idx) in statusList"
           :key="idx"
         >
@@ -163,29 +192,31 @@
             <div class="font-medium text-[16px] leading-[16px] text-[#E9E9E9]">{{ callWithChildFilter(child) }}</div>
           </div>
         </div>
-        <div
-          class="w-[calc((100%-36px)/2)] h-[63px] border border-solid border-[var(--color-border)] flex flex-row justify-between items-center px-[35px] py-[22px]"
-          v-for="(item, idx) in otherStatusList"
-          :key="idx"
-        >
-          <div class="flex flex-row items-center">
-            <div
-              :class="{
-                'w-[10px] h-[10px] rounded-full mr-[16px] border-2 border-solid bg-transparent': true,
-                'border-[#00D8C3]': isOpen(item),
-                'border-[#FFFFFF]': isClose(item),
-              }"
-            />
-            <div class="font-medium text-[16px] leading-[16px] text-[#E9E9E9]">{{ item.name }}</div>
+        <div class="w-[calc((100%-36px)/2)] flex flex-col gap-[16px]">
+          <div
+            class="h-[63px] border border-solid border-[var(--color-border)] flex flex-row justify-between items-center px-[35px] py-[22px]"
+            v-for="(item, idx) in otherStatusList"
+            :key="idx"
+          >
+            <div class="flex flex-row items-center">
+              <div
+                :class="{
+                  'w-[10px] h-[10px] rounded-full mr-[16px] border-2 border-solid bg-transparent': true,
+                  'border-[#00D8C3]': isOpen(item),
+                  'border-[#FFFFFF]': isClose(item),
+                }"
+              />
+              <div class="font-medium text-[16px] leading-[16px] text-[#E9E9E9]">{{ item.name }}</div>
+            </div>
+            <div class="font-medium text-[16px] leading-[16px] text-[#E9E9E9]">
+              {{ otherCallWithChildFilter(item) }}
+            </div>
           </div>
-          <div class="font-medium text-[16px] leading-[16px] text-[#E9E9E9]">{{ otherCallWithChildFilter(item) }}</div>
         </div>
       </div>
     </div>
-    <div
-      class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] flex-1 flex justify-center items-center"
-    >
-      <div class="text-[#8F8F92]">暂无数据</div>
+    <div class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] flex-1">
+      <CurveChart ref="chart" :chart-data="curveData" class="h-[160px]" top="20%" bottom="0" />
     </div>
   </div>
 </template>

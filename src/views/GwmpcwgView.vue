@@ -101,7 +101,7 @@
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="历史数据">
-          <CurveChart ref="chart" :chart-data="curveData" />
+          <CurveChart ref="chart" :chart-data="curveData" class="h-[400px]" />
         </a-tab-pane>
       </a-tabs>
     </div>
