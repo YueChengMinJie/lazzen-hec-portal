@@ -50,10 +50,6 @@
   }
 
   const filterVal = (item: Api.CurrentDataResult) => {
-    return `${item.value}${item.unit}`;
-  };
-
-  const filterVal2 = (item: Api.CurrentDataResult) => {
     if (item.name === '断路器合闸位置') {
       if (item.value === '0') {
         return '分';
@@ -70,7 +66,13 @@
       } else if (item.value === '1') {
         return '未储能';
       }
-    } else if (item.name.indexOf('报警') !== -1) {
+    } else {
+      return `${item.value}${item.unit}`;
+    }
+  };
+
+  const filterVal2 = (item: Api.CurrentDataResult) => {
+    if (item.name.indexOf('报警') !== -1) {
       return item.value === '1' ? '报警' : '正常';
     } else if (item.name === '采集通讯状态异常') {
       if (item.value === '0') {
@@ -142,7 +144,9 @@
                 class="flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
               >
                 <div
-                  v-for="item in headers.filter(v => v.code.startsWith('4'))"
+                  v-for="item in headers.filter(
+                    v => v.code.startsWith('4') || v.name === '断路器合闸位置' || v.name === '电机已储能',
+                  )"
                   :key="item.id"
                   class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
                 >
@@ -164,7 +168,9 @@
                 class="flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
               >
                 <div
-                  v-for="item in headers.filter(v => v.code.startsWith('0'))"
+                  v-for="item in headers.filter(
+                    v => v.code.startsWith('0') && v.name !== '断路器合闸位置' && v.name !== '电机已储能',
+                  )"
                   :key="item.id"
                   class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
                 >
