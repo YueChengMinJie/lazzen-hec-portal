@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <div class="w-[480px] h-[390px] px-[10px] chart">
+  <div class="w-[400px] h-[400px] p-[10px] chart rounded-xl">
     <div class="header h-[44px] pl-[90px] pr-[15px] flex flex-row justify-between items-center">
       <div class="flex flex-row h-full items-center">
         <Point />

@@ -5,6 +5,7 @@
     chartData: CurveChartData;
     top?: string;
     bottom?: string;
+    color?: string[];
   }>();
 
   const echart = ref<EChartExpose>();
@@ -48,9 +49,12 @@
       option.series.push({
         name: data.legendData[i],
         type: 'line',
-        stack: 'Total',
         data: seriesDatum,
       });
+    }
+    if (props.color?.length) {
+      // @ts-ignore
+      option.color = props.color;
     }
     return option;
   };

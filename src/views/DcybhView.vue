@@ -216,7 +216,14 @@
       </div>
     </div>
     <div class="mt-8 p-8 border border-[var(--color-border)] bg-[var(--bg-color)] flex-1">
-      <CurveChart ref="chart" :chart-data="curveData" class="h-[160px]" top="20%" bottom="0" />
+      <CurveChart
+        ref="chart"
+        :chart-data="curveData"
+        class="h-[160px]"
+        top="20%"
+        bottom="0"
+        :color="['#d89735', '#28867c', '#c9293b', '#c3c3c4']"
+      />
     </div>
   </div>
 </template>

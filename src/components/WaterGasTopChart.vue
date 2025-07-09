@@ -121,7 +121,7 @@
 </script>
 
 <template>
-  <EChart ref="echart" class="w-[460px] h-[315px]" />
+  <EChart ref="echart" class="w-[380px] h-[305px]" />
 </template>
 
 <style scoped></style>

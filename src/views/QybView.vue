@@ -146,6 +146,9 @@
       sqYbAlias.open = false;
     }
   };
+  const handleDialogCancel = () => {
+    dateTimeRange.value = [dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')];
+  };
 </script>
 
 <template>
@@ -223,7 +226,7 @@
       </div>
     </div>
 
-    <a-modal v-model:open="open" :closable="false" :footer="null" width="90vw">
+    <a-modal v-model:open="open" :closable="false" :footer="null" width="90vw" @cancel="handleDialogCancel">
       <div class="flex flex-row justify-between items-center mb-[30px]">
         <div class="font-medium text-[20px] text-[#E9E9E9]">汽仪表{{ selectId }}-用汽统计分析</div>
         <div class="flex flex-row justify-start items-center">

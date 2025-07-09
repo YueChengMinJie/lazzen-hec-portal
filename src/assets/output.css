@@ -168,6 +168,9 @@
   .relative {
     position: relative;
   }
+  .mx-\[10px\] {
+    margin-inline: 10px;
+  }
   .mx-\[16px\] {
     margin-inline: 16px;
   }
@@ -246,6 +249,12 @@
   .h-\[63px\] {
     height: 63px;
   }
+  .h-\[80px\] {
+    height: 80px;
+  }
+  .h-\[100px\] {
+    height: 100px;
+  }
   .h-\[100vh\] {
     height: 100vh;
   }
@@ -287,6 +296,9 @@
   }
   .h-\[300px\] {
     height: 300px;
+  }
+  .h-\[305px\] {
+    height: 305px;
   }
   .h-\[315px\] {
     height: 315px;
@@ -351,6 +363,30 @@
   .h-\[calc\(100vh-388px-40px-59px-59px-10px\)\] {
     height: calc(100vh - 388px - 40px - 59px - 59px - 10px);
   }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-46px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 46px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-50px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 50px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-55px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 55px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-56px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 56px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-57px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 57px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-58px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 58px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-59px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 59px);
+  }
+  .h-\[calc\(100vh-388px-40px-59px-59px-10px-60px\)\] {
+    height: calc(100vh - 388px - 40px - 59px - 59px - 10px - 60px);
+  }
   .h-\[calc\(100vh-388px-59px-59px\)\] {
     height: calc(100vh - 388px - 59px - 59px);
   }
@@ -398,6 +434,12 @@
   }
   .w-\[370px\] {
     width: 370px;
+  }
+  .w-\[380px\] {
+    width: 380px;
+  }
+  .w-\[400px\] {
+    width: 400px;
   }
   .w-\[460px\] {
     width: 460px;
@@ -636,6 +678,9 @@
   }
   .py-\[22px\] {
     padding-block: 22px;
+  }
+  .pt-\[0px\] {
+    padding-top: 0px;
   }
   .pt-\[10px\] {
     padding-top: 10px;

@@ -27,8 +27,8 @@
       return [
         data.map(item => item.xname),
         data.map(item => item.value),
-        data.map(item => item.qoq),
-        data.map(item => item.yoy),
+        data.map(item => item.qoq || 0),
+        data.map(item => item.yoy || 0),
       ];
     } catch (_) {
       return [[], [], [], []];
@@ -105,7 +105,7 @@
           yAxisIndex: 1,
           tooltip: {
             valueFormatter: function (value: number) {
-              return value + ' °%';
+              return value + ' %';
             },
           },
           data: data[3],
@@ -129,7 +129,7 @@
 </script>
 
 <template>
-  <EChart ref="echart" class="w-[460px] h-[315px]" />
+  <EChart ref="echart" class="w-[380px] h-[305px]" />
 </template>
 
 <style scoped></style>

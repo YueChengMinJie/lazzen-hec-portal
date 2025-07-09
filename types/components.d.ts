@@ -27,6 +27,8 @@ declare module 'vue' {
     CurveChart: typeof import('./../src/components/CurveChart.vue')['default']
     EChart: typeof import('./../src/components/base/EChart.vue')['default']
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
+    JxtxItem: typeof import('./../src/components/JxtxItem.vue')['default']
+    JxtxView: typeof import('./../src/components/JxtxView.vue')['default']
     OnlineStatus: typeof import('./../src/components/OnlineStatus.vue')['default']
     ParamChart: typeof import('./../src/components/ParamChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

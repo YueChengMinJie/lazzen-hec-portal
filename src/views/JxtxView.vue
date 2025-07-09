@@ -1,10 +1,6 @@
 <script setup lang="ts">
   import type { Api } from '@/types/api';
 
-  import Jxtx1 from '@/assets/svg/jxtx1.svg?component';
-  import Jxtx2 from '@/assets/svg/jxtx2.svg?component';
-  import Jxtx3 from '@/assets/svg/jxtx3.svg?component';
-  import Jxtx4 from '@/assets/svg/jxtx4.svg?component';
   import Download from '@/assets/svg/download.svg?component';
   import { useData, useDomainCode } from '@/utils/hook.ts';
   import { useJxtx } from '@/stores/jxtx.ts';
@@ -26,6 +22,8 @@
     } as ParamChartData,
   });
   const activeKey = ref('1');
+  const activeKey2 = ref('1');
+  const activeKey3 = ref('1');
 
   function updateChart(x: Array<string>, y: Array<number>) {
     data.chartData.xAxisData = x;
@@ -49,79 +47,6 @@
     return false;
   }
 
-  const filterVal = (item: Api.CurrentDataResult) => {
-    if (item.name === '断路器合闸位置') {
-      if (item.value === '0') {
-        return '分';
-      } else if (item.value === '1') {
-        return '合';
-      } else if (item.value === '2') {
-        return '异常分闸';
-      } else if (item.value === '3') {
-        return '未知';
-      }
-    } else if (item.name === '电机已储能') {
-      if (item.value === '0') {
-        return '已储能';
-      } else if (item.value === '1') {
-        return '未储能';
-      }
-    } else {
-      return `${item.value}${item.unit}`;
-    }
-  };
-
-  const filterVal2 = (item: Api.CurrentDataResult) => {
-    if (item.name.indexOf('报警') !== -1) {
-      return item.value === '1' ? '报警' : '正常';
-    } else if (item.name === '采集通讯状态异常') {
-      if (item.value === '0') {
-        return '正常';
-      } else if (item.value === '1') {
-        return '通讯异常';
-      }
-    } else if (item.name.indexOf('系统运行状态') !== -1 || item.name.indexOf('分合闸线圈状态') !== -1) {
-      return item.value === '1' ? '异常' : '正常';
-    } else if (item.name === '机构状态异常') {
-      if (item.value === '0') {
-        return '正常';
-      } else if (item.value === '1') {
-        return '弹簧疲劳、机构卡涩、传动润滑缺陷';
-      }
-    } else if (item.name === '辅助开关状态异常') {
-      if (item.value === '0') {
-        return '正常';
-      } else if (item.value === '1') {
-        return '辅助触点切换异常';
-      }
-    } else if (item.name === '分闸回路短路' || item.name === '合闸回路短路' || item.name === '副分闸回路短路') {
-      if (item.value === '0') {
-        return '正常';
-      } else if (item.value === '1') {
-        return '回路短路';
-      }
-    } else if (item.name.indexOf('储能电机运行状态') !== -1) {
-      return item.value === '1' ? '异常' : '正常';
-    } else if (item.name === '储能电机回路短路') {
-      if (item.value === '0') {
-        return '正常';
-      } else if (item.value === '1') {
-        return '回路短路';
-      }
-    }
-    return `${item.value}`;
-  };
-
-  const firstIcon = (item: Api.CurrentDataResult) => {
-    return item.unit === 'A';
-  };
-  const secondIcon = (item: Api.CurrentDataResult) => {
-    return item.name.indexOf('储能电机运行状态') !== -1;
-  };
-  const thirdIcon = (item: Api.CurrentDataResult) => {
-    return item.name.indexOf('位') !== -1;
-  };
-
   const handleDownloadClick = async () => {
     await jxtxStore.exportParam(domainCode, data.list[data.current]);
   };
@@ -139,53 +64,43 @@
         <div class="right-top"> 机械特性 </div>
         <div class="ml-[15px]">
           <a-tabs v-model:activeKey="activeKey">
-            <a-tab-pane key="1" tab="运行数据">
-              <div
-                class="flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
-              >
-                <div
-                  v-for="item in headers.filter(
-                    v => v.code.startsWith('4') || v.name === '断路器合闸位置' || v.name === '电机已储能',
-                  )"
-                  :key="item.id"
-                  class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
-                >
-                  <div class="flex justify-center items-center">
-                    <Jxtx1 v-if="firstIcon(item)" />
-                    <Jxtx2 v-else-if="secondIcon(item)" />
-                    <Jxtx3 v-else-if="thirdIcon(item)" />
-                    <Jxtx4 v-else />
-                  </div>
-                  <div class="flex flex-col">
-                    <div class="value">{{ filterVal(item) }}</div>
-                    <div>{{ item.name }}</div>
-                  </div>
-                </div>
-              </div>
+            <a-tab-pane key="1" tab="动作数据">
+              <a-tabs v-model:activeKey="activeKey2">
+                <a-tab-pane key="1" tab="分闸报警">
+                  <JxtxItem
+                    :headers="headers"
+                    :list="['0006', '0007', '0008', '0009', '000A', '000B', '000C', '000D', '000E', '000F']"
+                  />
+                </a-tab-pane>
+                <a-tab-pane key="2" tab="储能报警">
+                  <JxtxItem :headers="headers" :list="['001A', '001B', '001C']" />
+                </a-tab-pane>
+                <a-tab-pane key="3" tab="合闸报警">
+                  <JxtxItem
+                    :headers="headers"
+                    :list="['0010', '0011', '0012', '0013', '0014', '0015', '0016', '0017', '0018', '0019']"
+                  />
+                </a-tab-pane>
+              </a-tabs>
             </a-tab-pane>
-            <a-tab-pane key="2" tab="报警数据">
-              <div
-                class="flex flex-row flex-wrap right-bottom h-[calc(100vh-388px-40px-59px-59px-10px)] overflow-y-auto"
-              >
-                <div
-                  v-for="item in headers.filter(
-                    v => v.code.startsWith('0') && v.name !== '断路器合闸位置' && v.name !== '电机已储能',
-                  )"
-                  :key="item.id"
-                  class="w-[33%] px-[14px] py-[18px] flex flex-row gap-[16px] right-bottom-child"
-                >
-                  <div class="flex justify-center items-center">
-                    <Jxtx1 v-if="firstIcon(item)" />
-                    <Jxtx2 v-else-if="secondIcon(item)" />
-                    <Jxtx3 v-else-if="thirdIcon(item)" />
-                    <Jxtx4 v-else />
-                  </div>
-                  <div class="flex flex-col">
-                    <div class="value">{{ filterVal2(item) }}</div>
-                    <div>{{ item.name }}</div>
-                  </div>
-                </div>
-              </div>
+            <a-tab-pane key="2" tab="告警数据">
+              <a-tabs v-model:activeKey="activeKey3">
+                <a-tab-pane key="1" tab="分闸数据">
+                  <JxtxItem
+                    :headers="headers"
+                    :list="['4004', '400B', '4003', '4014', '4017', '4019', '4013', '4018']"
+                  />
+                </a-tab-pane>
+                <a-tab-pane key="2" tab="储能数据">
+                  <JxtxItem :headers="headers" :list="['403B', '403C', '403F', '403D']" />
+                </a-tab-pane>
+                <a-tab-pane key="3" tab="合闸数据">
+                  <JxtxItem
+                    :headers="headers"
+                    :list="['4020', '4027', '401F', '4030', '4033', '4035', '402F', '4034']"
+                  />
+                </a-tab-pane>
+              </a-tabs>
             </a-tab-pane>
           </a-tabs>
         </div>
@@ -231,22 +146,6 @@
     font-size: 16px;
     color: var(--color-heading);
     font-weight: 600;
-  }
-
-  .right-bottom {
-    .right-bottom-child:nth-child(3n + 1) {
-      border-right: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .right-bottom-child:nth-child(3n + 2) {
-      border-right: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .right-bottom-child:nth-child(3n + 3) {
-      border-bottom: 1px solid var(--color-border);
-    }
   }
 
   .param-item {
