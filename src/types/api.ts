@@ -23,19 +23,13 @@ export namespace Api {
     steamDeviceName?: string;
   }
 
-  export interface YbDetailData extends CommonParams, PageParams {
+  export interface YbDetailData extends CommonParams {
     startDate?: string;
     endDate?: string;
-    id: string;
+    ids: string[];
     dataEnum: string;
-    forwardPointCode: string;
-    reversePointCode?: string;
-  }
-
-  export interface YbDetailExportData extends CommonParams {
-    startDate?: string;
-    endDate?: string;
-    id: string;
+    forwardPointCodes: string[];
+    reversePointCodes?: (string | undefined)[];
   }
 
   export interface ChartData {
@@ -68,10 +62,16 @@ export namespace Api {
     reverseValue?: string;
   }
 
+  export interface YbFeResult extends YbResult {
+    checked: boolean;
+  }
+
   export interface YbDetailResult {
     id: string;
-    date: string;
-    value: string;
+    name: string;
+    start: string;
+    end: string;
+    gap: string;
   }
 
   export interface ChartResult {

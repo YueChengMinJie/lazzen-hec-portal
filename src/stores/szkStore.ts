@@ -14,24 +14,20 @@ export const useSzk = defineStore('szk', () => {
     }
   }
 
-  async function loadPage(
-    current: number,
-    pageSize: number,
+  async function loadDetail(
     dateTimeRange: RangeValue | undefined,
-    selectId: string,
+    selectIds: string[],
     domainCode: string,
-    selectItem: Api.YbResult,
+    selectItems: Api.YbResult[],
   ) {
     const data = {
-      page: current,
-      size: pageSize,
       startDate: '',
       endDate: '',
-      id: selectId,
+      ids: selectIds,
       domainCode,
       dataEnum: 'WATER',
-      forwardPointCode: selectItem.forwardPointCode,
-      reversePointCode: selectItem.reversePointCode,
+      forwardPointCodes: selectItems.map(item => item.forwardPointCode),
+      reversePointCodes: selectItems.map(item => item.reversePointCode),
     };
     setDateTimeRange(dateTimeRange, data);
     return await getYbDetailPage(data);
@@ -46,18 +42,18 @@ export const useSzk = defineStore('szk', () => {
 
   async function exportPage(
     dateTimeRange: RangeValue | undefined,
-    selectId: string,
+    selectIds: string[],
     domainCode: string,
-    selectItem: Api.YbResult,
+    selectItems: Api.YbResult[],
   ) {
     const data = {
       startDate: '',
       endDate: '',
-      id: selectId,
+      ids: selectIds,
       domainCode,
       dataEnum: 'WATER',
-      forwardPointCode: selectItem.forwardPointCode,
-      reversePointCode: selectItem.reversePointCode,
+      forwardPointCodes: selectItems.map(item => item.forwardPointCode),
+      reversePointCodes: selectItems.map(item => item.reversePointCode),
     };
     setDateTimeRange(dateTimeRange, data);
     const response = await exportYbDetail(data);
@@ -76,7 +72,7 @@ export const useSzk = defineStore('szk', () => {
 
   return {
     loadList,
-    loadPage,
+    loadDetail,
     exportPage,
     loadAlias,
     saveAlias,

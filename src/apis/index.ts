@@ -19,10 +19,10 @@ export const getQybList = (data: Api.YbData) => {
 };
 
 export const getYbDetailPage = (data: Api.YbDetailData) => {
-  return requestClient.post<Api.PageResult<Api.YbDetailResult> | null>('/device/history/analysis', data);
+  return requestClient.post<Api.YbDetailResult[]>('/device/history/analysis', data);
 };
 
-export const exportYbDetail = (data: Api.YbDetailExportData) => {
+export const exportYbDetail = (data: Api.YbDetailData) => {
   return requestClient.download('/device/history/analysis/export', data, {
     timeout: 5 * 60 * 1000,
   });

@@ -14,23 +14,19 @@ export const useQzk = defineStore('qzk', () => {
     }
   }
 
-  async function loadPage(
-    current: number,
-    pageSize: number,
+  async function loadDetail(
     dateTimeRange: RangeValue | undefined,
-    selectId: string,
+    selectIds: string[],
     domainCode: string,
-    selectItem: Api.YbResult,
+    selectItems: Api.YbResult[],
   ) {
     const data = {
-      page: current,
-      size: pageSize,
       startDate: '',
       endDate: '',
-      id: selectId,
+      ids: selectIds,
       domainCode,
       dataEnum: 'STEAM',
-      forwardPointCode: selectItem.forwardPointCode,
+      forwardPointCodes: selectItems.map(item => item.forwardPointCode),
     };
     setDateTimeRange(dateTimeRange, data);
     return await getYbDetailPage(data);
@@ -45,17 +41,17 @@ export const useQzk = defineStore('qzk', () => {
 
   async function exportPage(
     dateTimeRange: RangeValue | undefined,
-    selectId: string,
+    selectIds: string[],
     domainCode: string,
-    selectItem: Api.YbResult,
+    selectItems: Api.YbResult[],
   ) {
     const data = {
       startDate: '',
       endDate: '',
-      id: selectId,
+      ids: selectIds,
       domainCode,
       dataEnum: 'STEAM',
-      forwardPointCode: selectItem.forwardPointCode,
+      forwardPointCodes: selectItems.map(item => item.forwardPointCode),
     };
     setDateTimeRange(dateTimeRange, data);
     const response = await exportYbDetail(data);
@@ -74,7 +70,7 @@ export const useQzk = defineStore('qzk', () => {
 
   return {
     loadList,
-    loadPage,
+    loadDetail,
     exportPage,
     loadAlias,
     saveAlias,

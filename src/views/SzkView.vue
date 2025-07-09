@@ -4,7 +4,7 @@
   import type { Api } from '@/types/api';
   import type { SqYbAliasForm } from '@/types/component.ts';
 
-  import { useData, useDomainCode, usePagination } from '@/utils/hook';
+  import { useData, useDomainCode } from '@/utils/hook';
   import Syb from '@/assets/svg/syb.svg?component';
   import Zll from '@/assets/svg/zll.svg?component';
   import Ssll from '@/assets/svg/ssll.svg?component';
@@ -13,7 +13,7 @@
   import OnlineStatus from '@/components/OnlineStatus.vue';
   import Download from '@/assets/svg/download.svg?component';
   import { useSzk } from '@/stores/szkStore';
-  import dayjs, { type Dayjs } from 'dayjs';
+  import dayjs from 'dayjs';
 
   const szkStore = useSzk();
   const domainCode = useDomainCode();
@@ -21,11 +21,14 @@
 
   const formRef = ref<FormInstance>();
   const formState = reactive({ status: undefined, name: '' });
-  const list = ref<Array<Api.YbResult>>([]);
+  const list = ref<Array<Api.YbFeResult>>([]);
   const open = ref(false);
   const loading = ref(false);
-  const selectId = ref();
-  const selectItem = ref();
+  const cb = reactive({
+    show: false,
+    selectIds: [] as string[],
+    selectItems: [] as Api.YbFeResult[],
+  });
   const dateTimeRange = ref<RangeValue>([dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')]);
   const dataSource = ref<Array<Api.YbDetailResult>>([]);
   const sqYbAlias = reactive({
@@ -40,19 +43,30 @@
   });
   const columns = [
     {
-      title: '日期',
-      dataIndex: 'date',
-      key: 'date',
+      title: '名称',
+      dataIndex: 'name',
+      key: 'name',
       width: 200,
     },
     {
-      title: '用水量',
-      dataIndex: 'value',
-      key: 'value',
+      title: '起始时间值',
+      dataIndex: 'start',
+      key: 'start',
+      width: 200,
+    },
+    {
+      title: '结束时间值',
+      dataIndex: 'end',
+      key: 'end',
+      width: 200,
+    },
+    {
+      title: '差值',
+      dataIndex: 'gap',
+      key: 'gap',
       width: 200,
     },
   ];
-  const { current, pageSize, total, pagination } = usePagination();
 
   async function loadData() {
     if (domainCode) {
@@ -61,7 +75,10 @@
           szkStore.loadList(domainCode, formState.status, formState.name),
           szkStore.loadAlias(),
         ]);
-        list.value = data1 || [];
+        list.value =
+          data1?.map(v => {
+            return { ...v, checked: false };
+          }) || [];
         sqYbAlias.list = data2 || [];
         return true;
       } catch (e) {
@@ -76,17 +93,9 @@
   async function loadPage() {
     try {
       let [data1] = await Promise.all([
-        szkStore.loadPage(
-          current.value,
-          pageSize.value,
-          dateTimeRange.value,
-          selectId.value,
-          domainCode,
-          selectItem.value,
-        ),
+        szkStore.loadDetail(dateTimeRange.value, cb.selectIds, domainCode, cb.selectItems),
       ]);
-      dataSource.value = data1?.records || [];
-      total.value = data1?.total || 0;
+      dataSource.value = data1 || [];
       return true;
     } catch (e) {
       console.error('请求错误', e);
@@ -101,9 +110,9 @@
     formRef.value?.resetFields();
     await loadData();
   };
-  const handleAnalyzeClick = async (item: Api.YbResult) => {
-    selectId.value = item.id;
-    selectItem.value = item;
+  const handleAnalyzeClick = async (items: Api.YbFeResult[]) => {
+    cb.selectIds = items.map(item => item.id);
+    cb.selectItems = items;
     await loadPage();
     open.value = true;
   };
@@ -113,15 +122,10 @@
   const handleDownloadClick = async () => {
     loading.value = true;
     try {
-      await szkStore.exportPage(dateTimeRange.value, selectId.value, domainCode, selectItem.value);
+      await szkStore.exportPage(dateTimeRange.value, cb.selectIds, domainCode, cb.selectItems);
     } finally {
       loading.value = false;
     }
-  };
-  const disabledDate = (current: Dayjs) => {
-    const tooEarly = current.isBefore(dayjs().subtract(1, 'month'), 'day');
-    const tooLate = current.isAfter(dayjs(), 'day');
-    return tooEarly || tooLate;
   };
   const handleNameClick = (item: Api.YbResult, name: string) => {
     sqYbAlias.open = true;
@@ -149,6 +153,15 @@
   const handleDialogCancel = () => {
     dateTimeRange.value = [dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')];
   };
+  const handleCheck = () => {
+    cb.show = !cb.show;
+    if (!cb.show) {
+      handleAnalyzeClick(list.value.filter(item => item.checked));
+      list.value.forEach(item => {
+        item.checked = false;
+      });
+    }
+  };
 </script>
 
 <template>
@@ -172,6 +185,7 @@
           <a-col :span="8">
             <a-form-item>
               <div class="flex flex-row-reverse gap-[10px]">
+                <a-button type="primary" @click="handleCheck">{{ cb.show ? '用水分析' : '选择' }}</a-button>
                 <a-button type="primary" html-type="submit">查询</a-button>
                 <a-button @click="resetForm">重置</a-button>
               </div>
@@ -188,10 +202,17 @@
         :key="item.id"
         class="w-[339px] h-[268px] bg-[var(--bg-color)] rounded-[8px] border border-solid border-[var(--color-border)]"
       >
-        <div class="h-[58px] flex flex-row items-center gap-[8px] border-b border-solid border-[var(--color-border)]">
-          <Syb class="ml-[16px]" />
-          <div class="text-white font-medium text-[20px]">{{ getName(item) }}</div>
-          <EditOutlined class="cursor-pointer" @click="handleNameClick(item, getName(item))" />
+        <div
+          class="h-[58px] flex flex-row justify-between items-center border-b border-solid border-[var(--color-border)]"
+        >
+          <div class="flex flex-row justify-start items-center gap-[8px]">
+            <Syb class="ml-[16px]" />
+            <div class="text-white font-medium text-[20px]">{{ getName(item) }}</div>
+            <EditOutlined class="cursor-pointer" @click="handleNameClick(item, getName(item))" />
+          </div>
+          <div class="mr-[16px]">
+            <a-checkbox v-model:checked="item.checked" v-if="cb.show" />
+          </div>
         </div>
         <div
           :class="{
@@ -220,7 +241,7 @@
         <div class="px-[16px] flex flex-row justify-between items-center">
           <OnlineStatus :online="item.link" :show-continent="false" class="ml-[14px]" />
           <a-button>
-            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick(item)">
+            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick([item])">
               <YsfxOn v-if="item.link" />
               <Ysfx v-else />
               <div v-if="item.link" class="text-[var(--primary-color)]">用水分析</div>
@@ -233,7 +254,7 @@
 
     <a-modal v-model:open="open" :closable="false" :footer="null" width="90vw" @cancel="handleDialogCancel">
       <div class="flex flex-row justify-between items-center mb-[30px]">
-        <div class="font-medium text-[20px] text-[#E9E9E9]">水仪表{{ selectId }}-用水统计分析</div>
+        <div class="font-medium text-[20px] text-[#E9E9E9]">用水统计分析</div>
         <div class="flex flex-row justify-start items-center">
           <div class="font-medium text-[14px] text-[#BBBDBF]">时间查询：</div>
           <a-range-picker
@@ -241,7 +262,6 @@
             class="w-[370px]"
             :allow-clear="false"
             v-model:value="dateTimeRange"
-            :disabled-date="disabledDate"
             @change="handleDateRangeChange"
           />
           <div class="ml-[30px]" v-if="loading">
@@ -250,7 +270,7 @@
           <Download class="ml-[30px] cursor-pointer" @click="handleDownloadClick" v-else />
         </div>
       </div>
-      <a-table :dataSource="dataSource" :columns="columns" :pagination="pagination" />
+      <a-table :dataSource="dataSource" :columns="columns" :pagination="false" />
     </a-modal>
 
     <a-modal v-model:open="sqYbAlias.open" title="保存" :confirm-loading="sqYbAlias.confirmLoading" @ok="handleSave">

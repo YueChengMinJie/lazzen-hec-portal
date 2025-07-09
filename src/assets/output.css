@@ -210,6 +210,9 @@
   .ml-\[30px\] {
     margin-left: 30px;
   }
+  .ml-auto {
+    margin-left: auto;
+  }
   .flex {
     display: flex;
   }
@@ -554,6 +557,12 @@
   }
   .self-center {
     align-self: center;
+  }
+  .self-end {
+    align-self: flex-end;
+  }
+  .justify-self-end {
+    justify-self: flex-end;
   }
   .overflow-x-auto {
     overflow-x: auto;
