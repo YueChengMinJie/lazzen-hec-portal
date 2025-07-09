@@ -29,8 +29,6 @@
     selectIds: [] as string[],
     selectItems: [] as Api.YbFeResult[],
   });
-  const selectId = ref();
-  const selectItem = ref();
   const dateTimeRange = ref<RangeValue>([dayjs().subtract(1, 'month').startOf('day'), dayjs().endOf('day')]);
   const dataSource = ref<Array<Api.YbDetailResult>>([]);
   const sqYbAlias = reactive({
