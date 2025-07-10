@@ -778,6 +778,9 @@
   .text-\[\#FFF\] {
     color: #FFF;
   }
+  .text-\[\#fff\] {
+    color: #fff;
+  }
   .text-\[var\(--primary-color\)\] {
     color: var(--primary-color);
   }

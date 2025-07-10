@@ -34,7 +34,7 @@
 <style scoped>
   .jsc {
     background-image: url(@/assets/image/background.png);
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
