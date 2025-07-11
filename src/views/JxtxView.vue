@@ -65,7 +65,7 @@
         <div class="ml-[15px]">
           <a-tabs v-model:activeKey="activeKey">
             <a-tab-pane key="1" tab="运行信息">
-              <JxtxItem :headers="headers" :list="['002A', '002B', '002C', '002D', '4044', '4045', '4046']" />
+              <JxtxItem :headers="headers" :list="['0001', '002A', '002B', '002C', '002D', '4044', '4045', '4046']" />
             </a-tab-pane>
             <a-tab-pane key="2" tab="动作数据">
               <a-tabs v-model:activeKey="activeKey2">
