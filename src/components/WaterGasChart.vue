@@ -120,7 +120,7 @@
   };
 
   const getUnit = () => {
-    return isWater.value ? 'L' : 'KJ';
+    return isWater.value ? 't/吨' : 'KJ';
   };
 
   defineExpose({
