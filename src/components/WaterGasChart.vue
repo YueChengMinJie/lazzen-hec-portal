@@ -63,7 +63,7 @@
       yAxis: [
         {
           type: 'value',
-          name: getUnit(),
+          name: 't/吨',
           splitLine: {
             show: false,
           },
@@ -82,7 +82,7 @@
           type: 'bar',
           tooltip: {
             valueFormatter: function (value: number) {
-              return value + ' ' + getUnit();
+              return value + ' t/吨';
             },
           },
           data: data[1],
@@ -117,10 +117,6 @@
 
   const getName = () => {
     return isWater.value ? '用水量' : '用气量';
-  };
-
-  const getUnit = () => {
-    return isWater.value ? 't/吨' : 'KJ';
   };
 
   defineExpose({

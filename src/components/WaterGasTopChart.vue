@@ -53,7 +53,7 @@
         animationDuration: 300,
         animationDurationUpdate: 300,
         max: 4,
-        name: getUnit(),
+        name: 't/吨',
         nameLocation: 'start',
         axisTick: {
           show: false,
@@ -109,10 +109,6 @@
       animationEasing: 'linear',
       animationEasingUpdate: 'linear',
     };
-  };
-
-  const getUnit = () => {
-    return isWater.value ? 't/吨' : 'KJ';
   };
 
   defineExpose({
