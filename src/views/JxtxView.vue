@@ -69,25 +69,6 @@
             </a-tab-pane>
             <a-tab-pane key="2" tab="动作数据">
               <a-tabs v-model:activeKey="activeKey2">
-                <a-tab-pane key="1" tab="分闸报警">
-                  <JxtxItem
-                    :headers="headers"
-                    :list="['0006', '0007', '0008', '0009', '000A', '000B', '000C', '000D', '000E', '000F']"
-                  />
-                </a-tab-pane>
-                <a-tab-pane key="2" tab="储能报警">
-                  <JxtxItem :headers="headers" :list="['001A', '001B', '001C']" />
-                </a-tab-pane>
-                <a-tab-pane key="3" tab="合闸报警">
-                  <JxtxItem
-                    :headers="headers"
-                    :list="['0010', '0011', '0012', '0013', '0014', '0015', '0016', '0017', '0018', '0019']"
-                  />
-                </a-tab-pane>
-              </a-tabs>
-            </a-tab-pane>
-            <a-tab-pane key="3" tab="告警数据">
-              <a-tabs v-model:activeKey="activeKey3">
                 <a-tab-pane key="1" tab="分闸数据">
                   <JxtxItem
                     :headers="headers"
@@ -101,6 +82,25 @@
                   <JxtxItem
                     :headers="headers"
                     :list="['4020', '4027', '401F', '4030', '4033', '4035', '402F', '4034']"
+                  />
+                </a-tab-pane>
+              </a-tabs>
+            </a-tab-pane>
+            <a-tab-pane key="3" tab="告警数据">
+              <a-tabs v-model:activeKey="activeKey3">
+                <a-tab-pane key="1" tab="分闸报警">
+                  <JxtxItem
+                    :headers="headers"
+                    :list="['0006', '0007', '0008', '0009', '000A', '000B', '000C', '000D', '000E', '000F']"
+                  />
+                </a-tab-pane>
+                <a-tab-pane key="2" tab="储能报警">
+                  <JxtxItem :headers="headers" :list="['001A', '001B', '001C']" />
+                </a-tab-pane>
+                <a-tab-pane key="3" tab="合闸报警">
+                  <JxtxItem
+                    :headers="headers"
+                    :list="['0010', '0011', '0012', '0013', '0014', '0015', '0016', '0017', '0018', '0019']"
                   />
                 </a-tab-pane>
               </a-tabs>
