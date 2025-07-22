@@ -106,4 +106,16 @@ export namespace Api {
     xaxisData: string[];
     seriesData: string[][];
   }
+
+  export interface AnalyseDto {
+    legendData: string[];
+    xaxisData: string[];
+    seriesData: string[][];
+    value1: string;
+    text1: string;
+    value2: string;
+    text2: string;
+    value3: string;
+    text3: string;
+  }
 }

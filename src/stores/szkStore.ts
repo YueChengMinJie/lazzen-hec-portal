@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { exportYbDetail, getSybList, getYbDetailPage, querySqYbAlias, saveSqYbAlias } from '@/apis';
+import { analyseApi, exportYbDetail, getSybList, getYbDetailPage, querySqYbAlias, saveSqYbAlias } from '@/apis';
 import type { RangeValue } from '@/types';
 import fileDownload from 'js-file-download';
 import type { Api } from '@/types/api.ts';
@@ -70,11 +70,22 @@ export const useSzk = defineStore('szk', () => {
     return await saveSqYbAlias({ ...form, type: 1 });
   }
 
+  async function analyse(item: Api.YbFeResult, dateType: number, domainCode: string) {
+    return await analyseApi({
+      dateType,
+      domainCode,
+      dataType: 'WATER',
+      forwardPointCode: item.forwardPointCode,
+      reversePointCode: item.reversePointCode,
+    });
+  }
+
   return {
     loadList,
     loadDetail,
     exportPage,
     loadAlias,
     saveAlias,
+    analyse,
   };
 });

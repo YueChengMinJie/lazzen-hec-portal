@@ -2,7 +2,7 @@
   import type { RangeValue } from '@/types';
   import type { FormInstance } from 'ant-design-vue';
   import type { Api } from '@/types/api';
-  import type { SqYbAliasForm } from '@/types/component.ts';
+  import type { CurveChartData, DetailData, SqYbAliasForm } from '@/types/component.ts';
 
   import { useData, useDomainCode } from '@/utils/hook';
   import Syb from '@/assets/svg/syb.svg?component';
@@ -67,6 +67,26 @@
       width: 200,
     },
   ];
+  const detailData = reactive<DetailData>({
+    open: false,
+    selectItem: {} as Api.YbFeResult,
+    current: 1,
+    value1: '',
+    unit1: 't',
+    text1: '',
+    value2: '',
+    unit2: 't',
+    text2: '',
+    value3: '',
+    unit3: 't',
+    text3: '',
+  });
+  const chart = ref();
+  const curveData = ref<CurveChartData>({
+    legendData: [],
+    xAxisData: [],
+    seriesData: [],
+  });
 
   async function loadData() {
     if (domainCode) {
@@ -96,6 +116,28 @@
         szkStore.loadDetail(dateTimeRange.value, cb.selectIds, domainCode, cb.selectItems),
       ]);
       dataSource.value = data1 || [];
+      return true;
+    } catch (e) {
+      console.error('请求错误', e);
+      return false;
+    }
+  }
+
+  async function loadDetail() {
+    try {
+      let [data1] = await Promise.all([szkStore.analyse(detailData.selectItem, detailData.current, domainCode)]);
+      curveData.value.legendData = data1.legendData;
+      curveData.value.xAxisData = data1.xaxisData;
+      curveData.value.seriesData = data1.seriesData;
+      detailData.value1 = data1.value1;
+      detailData.text1 = data1.text1;
+      detailData.value2 = data1.value2;
+      detailData.text2 = data1.text2;
+      detailData.value3 = data1.value3;
+      detailData.text3 = data1.text3;
+      await nextTick(() => {
+        chart.value?.updateChart();
+      });
       return true;
     } catch (e) {
       console.error('请求错误', e);
@@ -162,6 +204,15 @@
       });
     }
   };
+  const handleDetailClick = async (item: Api.YbFeResult) => {
+    detailData.selectItem = item;
+    await loadDetail();
+    detailData.open = true;
+  };
+  const handleDayClick = async (current: number) => {
+    detailData.current = current;
+    await loadDetail();
+  };
 </script>
 
 <template>
@@ -225,23 +276,23 @@
           <div class="flex flex-row items-center gap-[13px]">
             <Ssll class="ml-[16px]" />
             <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">瞬时流量</div>
-            <div class="text-white font-medium text-[18px]">{{ item.value || '0.00' }}m³/h</div>
+            <div class="text-white font-medium text-[18px]">{{ item.value || '0.00' }}t/h</div>
           </div>
           <div class="flex flex-row items-center gap-[13px] mt-[10px]">
             <Zll class="ml-[16px]" />
             <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">正向流量</div>
-            <div class="text-white font-medium text-[18px]">{{ item.forwardValue || '0.00' }}m³</div>
+            <div class="text-white font-medium text-[18px]">{{ item.forwardValue || '0.00' }}t</div>
           </div>
           <div class="flex flex-row items-center gap-[13px] mt-[10px]">
             <Zll class="ml-[16px]" />
             <div class="text-[#8F8F92] font-normal text-[16px] w-1/2">反向流量</div>
-            <div class="text-white font-medium text-[18px]">{{ item.reverseValue || '0.00' }}m³</div>
+            <div class="text-white font-medium text-[18px]">{{ item.reverseValue || '0.00' }}t</div>
           </div>
         </div>
         <div class="px-[16px] flex flex-row justify-between items-center">
           <OnlineStatus :online="item.link" :show-continent="false" class="ml-[14px]" />
           <a-button>
-            <div class="flex flex-row items-center gap-[11px]" @click="handleAnalyzeClick([item])">
+            <div class="flex flex-row items-center gap-[11px]" @click="handleDetailClick(item)">
               <YsfxOn v-if="item.link" />
               <Ysfx v-else />
               <div v-if="item.link" class="text-[var(--primary-color)]">用水分析</div>
@@ -276,11 +327,72 @@
     <a-modal v-model:open="sqYbAlias.open" title="保存" :confirm-loading="sqYbAlias.confirmLoading" @ok="handleSave">
       <p><a-input v-model:value="sqYbAlias.form.name" placeholder="请输入" @press-enter="handleSave" /></p>
     </a-modal>
+
+    <a-modal v-model:open="detailData.open" :closable="false" :footer="null" width="90vw" @cancel="handleDialogCancel">
+      <div class="border border-solid border-[var(--color-border)] p-[16px] rounded-xl">
+        <div class="flex justify-between">
+          <div class="font-medium text-[20px] text-[#E9E9E9]">用能统计分析</div>
+          <div class="flex justify-end items-center">
+            <ul class="flex justify-start gap-[30px] font-medium text-[18px] text-[#E9E9E9]">
+              <li :class="{ current: detailData.current === 1, 'cursor-pointer': true }" @click="handleDayClick(1)">
+                日
+              </li>
+              <li :class="{ current: detailData.current === 3, 'cursor-pointer': true }" @click="handleDayClick(3)">
+                月
+              </li>
+              <li :class="{ current: detailData.current === 5, 'cursor-pointer': true }" @click="handleDayClick(5)">
+                年
+              </li>
+            </ul>
+            <!-- 等待需求确认 -->
+            <!-- <Download class="ml-[30px] cursor-pointer" /> -->
+          </div>
+        </div>
+        <div class="flex justify-between">
+          <div class="w-3/4">
+            <CurveChart ref="chart" :chart-data="curveData" class="h-full w-full" />
+          </div>
+          <div class="w-1/4 py-[16px] pl-[16px] rounded-xl flex flex-col gap-[16px]">
+            <div
+              class="border border-solid border-[var(--color-border)] p-[32px] flex justify-start items-center gap-[32px]"
+            >
+              <Zll class="scale-200" />
+              <div>
+                <div class="font-semibold">{{ detailData.value1 }} {{ detailData.unit1 }}</div>
+                <div class="text-[12px] text-[var(--color-placeholder)]">{{ detailData.text1 }}</div>
+              </div>
+            </div>
+            <div
+              class="border border-solid border-[var(--color-border)] p-[32px] flex justify-start items-center gap-[32px]"
+            >
+              <Zll class="scale-200" />
+              <div>
+                <div class="font-semibold">{{ detailData.value2 }} {{ detailData.unit2 }}</div>
+                <div class="text-[12px] text-[var(--color-placeholder)]">{{ detailData.text2 }}</div>
+              </div>
+            </div>
+            <div
+              class="border border-solid border-[var(--color-border)] p-[32px] flex justify-start items-center gap-[32px]"
+            >
+              <Zll class="scale-200" />
+              <div>
+                <div class="font-semibold">{{ detailData.value3 }} {{ detailData.unit3 }}</div>
+                <div class="text-[12px] text-[var(--color-placeholder)]">环比：{{ detailData.text3 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <style scoped>
   :deep(.ant-form-item) {
     margin: 0;
+  }
+
+  .current {
+    border-bottom: 1px solid var(--primary-color);
   }
 </style>
