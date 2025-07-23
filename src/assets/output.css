@@ -505,6 +505,9 @@
   .bg-\[\#292B38\] {
     background-color: #292B38;
   }
+  .bg-\[\#202020\] {
+    background-color: #202020;
+  }
   .bg-\[var\(--bg-color\)\] {
     background-color: var(--bg-color);
   }
@@ -617,6 +620,18 @@
   .leading-\[18px\] {
     --tw-leading: 18px;
     line-height: 18px;
+  }
+  .leading-\[20px\] {
+    --tw-leading: 20px;
+    line-height: 20px;
+  }
+  .leading-\[24px\] {
+    --tw-leading: 24px;
+    line-height: 24px;
+  }
+  .leading-\[30px\] {
+    --tw-leading: 30px;
+    line-height: 30px;
   }
   .font-medium {
     --tw-font-weight: var(--font-weight-medium);

@@ -7,6 +7,7 @@
   import { useData, useDomainCode } from '@/utils/hook';
   import Syb from '@/assets/svg/syb.svg?component';
   import Zll from '@/assets/svg/zll.svg?component';
+  import ZllExport from '@/assets/svg/zll-export.svg?component';
   import Ssll from '@/assets/svg/ssll.svg?component';
   import Ysfx from '@/assets/svg/ysfx.svg?component';
   import YsfxOn from '@/assets/svg/ysfx-on.svg?component';
@@ -14,6 +15,7 @@
   import Download from '@/assets/svg/download.svg?component';
   import { useQzk } from '@/stores/qzkStore';
   import dayjs from 'dayjs';
+  import html2canvas from 'html2canvas';
 
   const qzkStore = useQzk();
   const domainCode = useDomainCode();
@@ -213,6 +215,20 @@
     detailData.current = current;
     await loadDetail();
   };
+  const handleDetailDownloadClick = async () => {
+    const element: HTMLElement | null = document.querySelector('#analyze');
+    if (element) {
+      const canvas = await html2canvas(element);
+      const imageData = canvas.toDataURL('image/png');
+      const img = document.createElement('img');
+      img.src = imageData;
+      document.body.appendChild(img);
+      const link = document.createElement('a');
+      link.href = imageData;
+      link.download = 'screenshot.png';
+      link.click();
+    }
+  };
 </script>
 
 <template>
@@ -324,11 +340,11 @@
     </a-modal>
 
     <a-modal v-model:open="detailData.open" :closable="false" :footer="null" width="90vw" @cancel="handleDialogCancel">
-      <div class="border border-solid border-[var(--color-border)] p-[16px] rounded-xl">
+      <div class="border border-solid border-[var(--color-border)] p-[16px] rounded-xl bg-[#202020]" id="analyze">
         <div class="flex justify-between">
           <div class="font-medium text-[20px] text-[#E9E9E9]">用能统计分析</div>
-          <div class="flex justify-end items-center">
-            <ul class="flex justify-start gap-[30px] font-medium text-[18px] text-[#E9E9E9]">
+          <div class="flex justify-end items-start">
+            <ul class="flex justify-start gap-[30px] text-[18px] leading-[18px] text-[#E9E9E9]">
               <li :class="{ current: detailData.current === 1, 'cursor-pointer': true }" @click="handleDayClick(1)">
                 日
               </li>
@@ -339,8 +355,7 @@
                 年
               </li>
             </ul>
-            <!-- 等待需求确认 -->
-            <!-- <Download class="ml-[30px] cursor-pointer" /> -->
+            <Download class="ml-[30px] cursor-pointer" @click="handleDetailDownloadClick" />
           </div>
         </div>
         <div class="flex justify-between">
@@ -351,7 +366,7 @@
             <div
               class="border border-solid border-[var(--color-border)] p-[32px] flex justify-start items-center gap-[32px]"
             >
-              <Zll class="scale-200" />
+              <ZllExport />
               <div>
                 <div class="font-semibold">{{ detailData.value1 }} {{ detailData.unit1 }}</div>
                 <div class="text-[12px] text-[var(--color-placeholder)]">{{ detailData.text1 }}</div>
@@ -360,7 +375,7 @@
             <div
               class="border border-solid border-[var(--color-border)] p-[32px] flex justify-start items-center gap-[32px]"
             >
-              <Zll class="scale-200" />
+              <ZllExport />
               <div>
                 <div class="font-semibold">{{ detailData.value2 }} {{ detailData.unit2 }}</div>
                 <div class="text-[12px] text-[var(--color-placeholder)]">{{ detailData.text2 }}</div>
@@ -369,7 +384,7 @@
             <div
               class="border border-solid border-[var(--color-border)] p-[32px] flex justify-start items-center gap-[32px]"
             >
-              <Zll class="scale-200" />
+              <ZllExport />
               <div>
                 <div class="font-semibold">{{ detailData.value3 }} {{ detailData.unit3 }}</div>
                 <div class="text-[12px] text-[var(--color-placeholder)]">环比：{{ detailData.text3 }}</div>
@@ -389,5 +404,6 @@
 
   .current {
     border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 10px;
   }
 </style>

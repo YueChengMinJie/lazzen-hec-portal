@@ -24,6 +24,7 @@
     "dayjs": "^1.11.13",
     "defu": "^6.1.4",
     "echarts": "^5.6.0",
+    "html2canvas": "^1.4.1",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
     "pinia": "^3.0.2",
