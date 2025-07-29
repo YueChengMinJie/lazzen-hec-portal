@@ -111,7 +111,7 @@ class RequestClient {
       },
       responseReturn: 'raw',
       // 默认超时时间
-      timeout: 10_000,
+      timeout: 300_000,
     };
     const { ...axiosConfig } = options;
     const requestConfig = defu(axiosConfig, defaultConfig);
