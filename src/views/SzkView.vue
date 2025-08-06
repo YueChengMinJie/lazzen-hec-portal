@@ -97,10 +97,21 @@
           szkStore.loadList(domainCode, formState.status, formState.name),
           szkStore.loadAlias(),
         ]);
-        list.value =
-          data1?.map(v => {
-            return { ...v, checked: false };
-          }) || [];
+        if (list.value?.length) {
+          const map = list.value.reduce((previousValue, currentValue) => {
+            previousValue[currentValue.id] = currentValue;
+            return previousValue;
+          }, {} as any);
+          list.value =
+            data1?.map(v => {
+              return { ...v, checked: map[v.id]?.checked || false };
+            }) || [];
+        } else {
+          list.value =
+            data1?.map(v => {
+              return { ...v, checked: false };
+            }) || [];
+        }
         sqYbAlias.list = data2 || [];
         return true;
       } catch (e) {
